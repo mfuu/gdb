@@ -1,6 +1,7 @@
 # build output
 dist/
 .output/
+src/*/blog/
 
 # dependencies
 node_modules/

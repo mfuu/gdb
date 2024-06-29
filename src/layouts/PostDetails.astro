@@ -8,10 +8,13 @@ import type { CollectionEntry } from "astro:content";
 import { slugifyStr } from "@utils/slugify";
 import ShareLinks from "@components/ShareLinks.astro";
 import { SITE } from "@config";
+import { getBaseUrl } from "@utils/getBaseUrl";
 
 export interface Props {
   post: CollectionEntry<"blog">;
 }
+
+const baseUrl = getBaseUrl();
 
 const { post } = Astro.props;
 
@@ -30,7 +33,7 @@ const { Content } = await post.render();
 
 const ogImageUrl = typeof ogImage === "string" ? ogImage : ogImage?.src;
 const ogUrl = new URL(
-  ogImageUrl ?? `/posts/${slugifyStr(title)}.png`,
+  ogImageUrl ?? `${baseUrl}/posts/${slugifyStr(title)}.png`,
   Astro.url.origin
 ).href;
 

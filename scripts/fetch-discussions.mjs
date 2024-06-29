@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { graphql } from "@octokit/graphql";
+import giscusConfig from "../giscus.config.mjs";
 
 const gql = String.raw;
 
@@ -15,21 +16,20 @@ if (!owner || !repo) {
 }
 
 function getGiscus(discussionNumber) {
-  return `
-    <script src="https://giscus.app/client.js"
-      data-repo="${owner}/${repo}"
-      data-mapping="number"
-      data-term="${discussionNumber}"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="bottom"
-      data-theme="transparent_dark"
-      data-lang="zh-CN"
-      data-loading="lazy"
-      crossorigin="anonymous"
-      async
-    ></script>
-  `;
+  if (!giscusConfig.enable) {
+    return "";
+  }
+
+  const {
+    lang,
+    theme,
+    lazyLoading,
+    inputPosition,
+    emitMetadata,
+    reactionsEnabled,
+  } = giscusConfig;
+
+  return `<script src="https://giscus.app/client.js" data-repo="${owner}/${repo}" data-mapping="number" data-term="${discussionNumber}" data-reactions-enabled="${reactionsEnabled}" data-emit-metadata="${emitMetadata}" data-input-position="${inputPosition}" data-theme="${theme}" data-lang="${lang}" ${lazyLoading && 'data-loading="lazy"'} crossorigin="anonymous" async></script>`;
 }
 
 async function fetchData(query) {
@@ -79,7 +79,7 @@ function formatMarkdownBody(discussion, pinnedNumbers) {
       markdown.push(`${key}: ${value}`);
     }
   });
-  markdown.push(...["---", body, giscus]);
+  markdown.push(...["---", body, "", giscus]);
 
   return markdown.join("\n").replace(/\r/g, "");
 }
@@ -143,20 +143,32 @@ async function writeDiscussion() {
 
   discussions.forEach(discussion => {
     const category = discussion.category.slug;
-    const categories = JSON.parse(process.env.FETCH_CATEGORIES || '[]');
+    const categories = JSON.parse(process.env.FETCH_CATEGORIES || "[]");
     if (!categories.includes(category)) {
       return;
     }
 
     const markdown = formatMarkdownBody(discussion, pinnedNumbers);
 
+    const slug = (
+      discussion.title.match(/[a-zA-Z0-9\u4e00-\u9fa5_-]/g) || []
+    ).join("");
+    const filename = `${discussion.number}_${slug}.md`;
+
     // Save new formatted Markdown to a file under "src/content/blog"
-    const dir = path.join("src/content/blog", category);
-    fs.mkdirSync(dir, { recursive: true });
+    const dist = path.join(process.cwd(), "src/content/blog");
 
-    fs.writeFileSync(path.join(dir, `${discussion.number}.md`), markdown);
+    if (!fs.existsSync(dist)) {
+      fs.mkdirSync(dist);
+    }
 
-    console.log(`write file ${discussion.number}.md success`);
+    fs.writeFile(`${dist}/${filename}`, markdown, err => {
+      if (err) {
+        console.error(`Write discussion ${discussion.number} failed: ${err}`);
+      } else {
+        console.log(`Saved discussion ${discussion.number} to ${filename}`);
+      }
+    });
   });
 }
 

@@ -7,6 +7,7 @@ import Footer from "@components/Footer.astro";
 import Pagination from "@components/Pagination.astro";
 import Card from "@components/Card";
 import { SITE } from "@config";
+import { getBaseUrl } from "@utils/getBaseUrl";
 
 export interface Props {
   currentPage: number;
@@ -15,6 +16,8 @@ export interface Props {
 }
 
 const { currentPage, totalPages, paginatedPosts } = Astro.props;
+
+const baseUrl = getBaseUrl();
 ---
 
 <Layout title={`Posts | ${SITE.title}`}>
@@ -23,7 +26,7 @@ const { currentPage, totalPages, paginatedPosts } = Astro.props;
     <ul>
       {
         paginatedPosts.map(({ data, slug }) => (
-          <Card href={`/posts/${slug}/`} frontmatter={data} />
+          <Card href={`${baseUrl}/posts/${slug}/`} frontmatter={data} />
         ))
       }
     </ul>
@@ -32,8 +35,8 @@ const { currentPage, totalPages, paginatedPosts } = Astro.props;
   <Pagination
     {currentPage}
     {totalPages}
-    prevUrl={`/posts${currentPage - 1 !== 1 ? "/" + (currentPage - 1) : ""}/`}
-    nextUrl={`/posts/${currentPage + 1}/`}
+    prevUrl={`${baseUrl}/posts${currentPage - 1 !== 1 ? "/" + (currentPage - 1) : ""}/`}
+    nextUrl={`${baseUrl}/posts/${currentPage + 1}/`}
   />
 
   <Footer noMarginTop={totalPages > 1} />

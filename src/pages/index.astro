@@ -7,12 +7,15 @@ import LinkButton from "@components/LinkButton.astro";
 import Hr from "@components/Hr.astro";
 import Card from "@components/Card";
 import getSortedPosts from "@utils/getSortedPosts";
+import { getBaseUrl } from "@utils/getBaseUrl";
 
 const posts = await getCollection("blog");
 
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+
+const baseUrl = getBaseUrl();
 ---
 
 <Layout>
@@ -28,7 +31,7 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
             <ul>
               {featuredPosts.map(({ data, slug }) => (
                 <Card
-                  href={`/posts/${slug}/`}
+                  href={`${baseUrl}/posts/${slug}/`}
                   frontmatter={data}
                   secHeading={false}
                 />
@@ -49,7 +52,7 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
               ({ data, slug }, index) =>
                 index < 4 && (
                   <Card
-                    href={`/posts/${slug}/`}
+                    href={`${baseUrl}/posts/${slug}/`}
                     frontmatter={data}
                     secHeading={false}
                   />
@@ -61,7 +64,7 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
     }
 
     <div class="all-posts-btn-wrapper">
-      <LinkButton href="/posts/">
+      <LinkButton href=`${baseUrl}/posts/`>
         All Posts
         <svg xmlns="http://www.w3.org/2000/svg"
           ><path
