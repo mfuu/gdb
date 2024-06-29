@@ -1,0 +1,53 @@
+name: Generate blog based on discussions
+
+on:
+  discussion:
+    types:
+      [
+        created,
+        edited,
+        deleted,
+        pinned,
+        unpinned,
+        labeled,
+        unlabeled,
+        category_changed,
+      ]
+ 
+  workflow_dispatch:
+
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  fetch-discussions:
+    if: contains(fromJson('["Release"]'), github.event.discussion.category.slug)
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Fetch Discussions
+        run: npm run fetch --repository "${{github.repository}}"
+
+      - name: Build Blog
+        run: npm run build
+
+      - name: Deploy Github Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
