@@ -1,81 +1,43 @@
 # gdb
 
-![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white) ![mdx](https://img.shields.io/badge/mdx-yellow?style=for-the-badge&logo=MDX&logoColor=white)  ![giscus](https://img.shields.io/badge/giscus-%2319c37d?style=for-the-badge&logo=giscus&logoColor=white)
+![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white) ![mdx](https://img.shields.io/badge/mdx-yellow?style=for-the-badge&logo=MDX&logoColor=white) ![giscus](https://img.shields.io/badge/giscus-%2319c37d?style=for-the-badge&logo=giscus&logoColor=white)
 
-gdb(github discussion blog) 是一款开箱即用的博客。
+**What is gdb**
 
-系统主题：[AstroPaper](https://github.com/satnaing/astro-paper)
+gdb(github discussion blog), host blog content on GitHub, using GitHub Discussions as CMS for our Markdown content and then eventually using GitHub API to retrieve the content.
 
-## 实现
+## GitHub Discussion
 
-#### 1.开启项目的 Discussion 功能
+### Setup
 
-#### 2.编写自动同步 Discussion 脚本
+- Enabled discussion feature in my repository.
+- Deleted all default labels.
+- Deleted all default categories and sections.
+- Created new section named “Articles”.
+- Created two new categories with type “Announcement”, named “Release” and “Drafts” respective to release and draft posts.
 
-脚本内容参考 `scripts/fetch-discussions.mjs`
+### Fetch script
 
-在 packages.json 文件里新增了一个命令:
+Now for the fetching part, I had to add and extra build step for Astro, and here’s how it goes:
+
 ```json
 "scripts": {
+  "dev": "astro dev",
+  "start": "astro dev",
   "fetch": "node scripts/fetch-discussions.mjs",
-}
+  "build": "astro check && astro build && jampack ./dist",
+  "preview": "astro preview",
+  "sync": "astro sync",
+  "astro": "astro",
+},
 ```
 
-#### 3.使用 GitHub Workflow 自动同步
+For the script, you can found in `/scripts/fetch-discussions.mjs`
 
-```yml
-name: Generate blog based on discussions
+## Deploy
 
-on:
-  discussion:
-    types:
-      [
-        created,
-        edited,
-        deleted,
-        pinned,
-        unpinned,
-        labeled,
-        unlabeled,
-        category_changed,
-      ]
- 
-  workflow_dispatch:
+Automatic synchronization with Gitubb Wokflow, detail in `.github/workflows/discussions.yml`
 
+## Others
 
-permissions:
-  contents: write
-  pages: write
-
-jobs:
-  fetch-discussions:
-    # 只有这里配置的 Category 中的 Discussion 才会写入
-    if: contains(fromJson('["blog"]'), github.event.discussion.category.slug)
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Fetch Discussions
-        run: npm run fetch --repository "${{github.repository}}"
-
-      - name: Build Blog
-        run: npm run build
-
-      - name: Deploy Github Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: dist
-```
+My blog theme source: [AstroPaper](https://github.com/satnaing/astro-paper), of course, you can freely adjust it to the theme you want.

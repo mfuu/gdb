@@ -4,11 +4,10 @@ import matter from "gray-matter";
 import { graphql } from "@octokit/graphql";
 
 const gql = String.raw;
-const blogPath = "src/content/blog";
 
 // npm run fetch --repository "${{github.repository}}"
-const repository = process.argv.slice(2)[0] || '';
-const [owner, repo] = repository.split('/');
+const repository = process.argv.slice(2)[0] || "";
+const [owner, repo] = repository.split("/");
 
 if (!owner || !repo) {
   console.error("Invalid github repository");
@@ -52,6 +51,39 @@ async function fetchData(query) {
   return res;
 }
 
+function formatMarkdownBody(discussion, pinnedNumbers) {
+  // Extract frontmatter data from discussion Markdown
+  const { content: body, data: frontmatter } = matter(discussion.body);
+
+  // Construct post data object
+  Object.assign(frontmatter, {
+    title: discussion.title,
+    pubDatetime: discussion.createdAt,
+    modDatetime: discussion.updatedAt,
+    tags: discussion.labels.nodes.map(label => label.name) || ["test"],
+    featured: pinnedNumbers.includes(discussion.number),
+    description: discussion.title,
+  });
+  const giscus = getGiscus(discussion.number);
+
+  // Construct the post Markdown content
+  const markdown = ["---"];
+  Object.keys(frontmatter).forEach(key => {
+    const value = frontmatter[key];
+    if (Array.isArray(value) && value.length) {
+      markdown.push(`${key}:`);
+      for (let v of value) {
+        markdown.push(`  - ${v}`);
+      }
+    } else {
+      markdown.push(`${key}: ${value}`);
+    }
+  });
+  markdown.push(...["---", body, giscus]);
+
+  return markdown.join("\n").replace(/\r/g, "");
+}
+
 // get all discussions
 async function fetchDiscussions(discussions, after) {
   const res = await fetchData(`
@@ -80,7 +112,7 @@ async function fetchDiscussions(discussions, after) {
       }
     }
   `);
-  const { nodes, pageInfo } = res.repository.discussion;
+  const { nodes, pageInfo } = res.repository.discussions;
 
   discussions = discussions.concat(nodes);
 
@@ -111,38 +143,20 @@ async function writeDiscussion() {
 
   discussions.forEach(discussion => {
     const category = discussion.category.slug;
+    const categories = process.env.FETCH_CATEGORIES;
+    if (!categories.includes(category)) {
+      return;
+    }
 
-    // Extract frontmatter data from discussion Markdown
-    const { content: body, data: frontmatter } = matter(discussion.body);
-
-    // Construct post data object
-    Object.assign(frontmatter, {
-      title: discussion.title,
-      pubDatetime: discussion.createdAt,
-      modDatetime: discussion.updatedAt,
-      tags: discussion.labels.nodes.map(label => label.name),
-      featured: pinnedNumbers.includes(discussion.number),
-      description: discussion.title,
-    });
-    const giscus = getGiscus(discussion.number);
-
-    // Construct the post Markdown content
-    const markdown = `
-      ---
-      ${Object.keys(frontmatter)
-        .map(key => `${key}: ${frontmatter[key]}`)
-        .join("\n")}
-      ---
-
-      ${body}
-      ${giscus}
-    `.replace(/\r/g, "");
+    const markdown = formatMarkdownBody(discussion, pinnedNumbers);
 
     // Save new formatted Markdown to a file under "src/content/blog"
-    const dir = path.join(blogPath, category);
+    const dir = path.join("src/content/blog", category);
     fs.mkdirSync(dir, { recursive: true });
 
     fs.writeFileSync(path.join(dir, `${discussion.number}.md`), markdown);
+
+    console.log(`write file ${discussion.number}.md success`);
   });
 }
 

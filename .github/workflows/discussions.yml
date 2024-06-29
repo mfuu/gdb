@@ -16,6 +16,9 @@ on:
  
   workflow_dispatch:
 
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  FETCH_CATEGORIES: ["Release"]
 
 permissions:
   contents: write
@@ -23,10 +26,8 @@ permissions:
 
 jobs:
   fetch-discussions:
-    if: contains(fromJson('["Release"]'), github.event.discussion.category.slug)
+    if: contains(env.FETCH_CATEGORIES, github.event.discussion.category.slug)
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
