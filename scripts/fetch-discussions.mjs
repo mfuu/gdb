@@ -7,7 +7,7 @@ const gql = String.raw;
 const blogPath = "src/content/blog";
 
 // npm run fetch --repository "${{github.repository}}"
-const repository = process.argv.slice(2) || '';
+const repository = process.argv.slice(2)[0] || '';
 const [owner, repo] = repository.split('/');
 
 if (!owner || !repo) {
