@@ -4,4 +4,4 @@ Disallow: /nogooglebot/
 User-agent: *
 Allow: /
 
-Sitemap: https://mfuu.github.io/gdb/sitemap-index.xml
+Sitemap: https://mfuu.github.io/sitemap-index.xml
