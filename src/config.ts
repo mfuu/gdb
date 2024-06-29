@@ -1,7 +1,7 @@
 import type { Site, SocialObjects } from "./types";
 
 export const SITE: Site = {
-  website: "https://mfuu.github.io",
+  website: "https://mfuu.github.io/gdb/",
   base: "gdb",
   author: "mfuu",
   desc: "A minimal, responsive and SEO-friendly Astro blog theme.",
@@ -36,5 +36,5 @@ export const SOCIALS: SocialObjects = [
     href: "mailto:mfuu.me@gmail.com",
     linkTitle: `Send an email to ${SITE.title}`,
     active: false,
-  }
+  },
 ];

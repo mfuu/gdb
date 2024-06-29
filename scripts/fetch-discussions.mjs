@@ -143,7 +143,7 @@ async function writeDiscussion() {
 
   discussions.forEach(discussion => {
     const category = discussion.category.slug;
-    const categories = process.env.FETCH_CATEGORIES;
+    const categories = JSON.parse(process.env.FETCH_CATEGORIES || '[]');
     if (!categories.includes(category)) {
       return;
     }

@@ -2,23 +2,13 @@ name: Generate blog based on discussions
 
 on:
   discussion:
-    types:
-      [
-        created,
-        edited,
-        deleted,
-        pinned,
-        unpinned,
-        labeled,
-        unlabeled,
-        category_changed,
-      ]
+    types: [created, edited, deleted, pinned, unpinned, labeled, unlabeled, category_changed]
  
   workflow_dispatch:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  FETCH_CATEGORIES: ["Release"]
+  FETCH_CATEGORIES: '["Release"]'
 
 permissions:
   contents: write
@@ -26,7 +16,7 @@ permissions:
 
 jobs:
   fetch-discussions:
-    if: contains(env.FETCH_CATEGORIES, github.event.discussion.category.slug)
+    if: ${{ contains(fromJSON('["Release"]'), github.event.discussion.category.slug) }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
