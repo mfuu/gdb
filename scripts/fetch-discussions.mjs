@@ -142,9 +142,9 @@ async function writeDiscussion() {
   const discussions = await fetchDiscussions([]);
 
   discussions.forEach(discussion => {
-    const category = discussion.category.slug;
+    const category = discussion.category.slug.toLowerCase();
     const categories = JSON.parse(process.env.FETCH_CATEGORIES || "[]");
-    if (!categories.includes(category)) {
+    if (!categories.some(item => item.toLowerCase() === category)) {
       return;
     }
 
