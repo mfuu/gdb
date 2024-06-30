@@ -10,6 +10,9 @@ import { SITE } from "./src/config";
 export default defineConfig({
   site: SITE.website,
   base: SITE.base,
+  build: {
+    assets: "astro-assets",
+  },
   integrations: [
     tailwind({
       applyBaseStyles: false,
