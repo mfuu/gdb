@@ -2,7 +2,6 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { graphql } from "@octokit/graphql";
-import giscusConfig from "../giscus.config.mjs";
 
 const gql = String.raw;
 
@@ -13,23 +12,6 @@ const [owner, repo] = repository.split("/");
 if (!owner || !repo) {
   console.error("Invalid github repository");
   process.exit(1);
-}
-
-function getGiscus(discussionNumber) {
-  if (!giscusConfig.enable) {
-    return "";
-  }
-
-  const {
-    lang,
-    theme,
-    lazyLoading,
-    inputPosition,
-    emitMetadata,
-    reactionsEnabled,
-  } = giscusConfig;
-
-  return `<script src="https://giscus.app/client.js" data-repo="${owner}/${repo}" data-mapping="number" data-term="${discussionNumber}" data-reactions-enabled="${reactionsEnabled}" data-emit-metadata="${emitMetadata}" data-input-position="${inputPosition}" data-theme="${theme}" data-lang="${lang}" ${lazyLoading && 'data-loading="lazy"'} crossorigin="anonymous" async></script>`;
 }
 
 async function fetchData(query) {
@@ -63,8 +45,8 @@ function formatMarkdownBody(discussion, pinnedNumbers) {
     tags: discussion.labels.nodes.map(label => label.name) || ["test"],
     featured: pinnedNumbers.includes(discussion.number),
     description: discussion.title,
+    discussionNumber: discussion.number,
   });
-  const giscus = getGiscus(discussion.number);
 
   // Construct the post Markdown content
   const markdown = ["---"];
@@ -79,7 +61,7 @@ function formatMarkdownBody(discussion, pinnedNumbers) {
       markdown.push(`${key}: ${value}`);
     }
   });
-  markdown.push(...["---", body, "", giscus]);
+  markdown.push(...["---", body]);
 
   return markdown.join("\n").replace(/\r/g, "");
 }
@@ -153,7 +135,7 @@ async function writeDiscussion() {
     const slug = (
       discussion.title.match(/[a-zA-Z0-9\u4e00-\u9fa5_-]/g) || []
     ).join("");
-    const filename = `${discussion.number}_${slug}.md`;
+    const filename = `${slug ?? discussion.number}.md`;
 
     // Save new formatted Markdown to a file under "src/content/blog"
     const dist = path.join(process.cwd(), "src/content/blog");

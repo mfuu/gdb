@@ -1,4 +1,5 @@
 const giscusConfig = {
+  repo: 'mfuu/gdb',
   enable: true,
   lang: "zh-CN",
   theme: "transparent_dark",

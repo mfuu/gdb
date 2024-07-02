@@ -1,0 +1,40 @@
+---
+import giscusConfig from "../../giscus.config.mjs";
+
+export interface Props {
+  discussionNumber?: number;
+}
+
+const {
+  repo,
+  lang,
+  theme,
+  enable,
+  lazyLoading,
+  inputPosition,
+  emitMetadata,
+  reactionsEnabled,
+} = giscusConfig;
+
+const { discussionNumber } = Astro.props;
+---
+
+{
+  enable ? (
+    <script
+      is:inline
+      src="https://giscus.app/client.js"
+      data-repo={repo}
+      data-mapping="number"
+      data-term={discussionNumber}
+      data-reactions-enabled={reactionsEnabled}
+      data-emit-metadata={emitMetadata}
+      data-input-position={inputPosition}
+      data-theme={theme}
+      data-lang={lang}
+      data-loading={lazyLoading && "lazy"}
+      crossorigin="anonymous"
+      async
+    />
+  ) : null
+}

@@ -4,9 +4,10 @@ import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import Tag from "@components/Tag.astro";
 import Datetime from "@components/Datetime";
+import Comment from "@components/Comment.astro";
+import ShareLinks from "@components/ShareLinks.astro";
 import type { CollectionEntry } from "astro:content";
 import { slugifyStr } from "@utils/slugify";
-import ShareLinks from "@components/ShareLinks.astro";
 import { SITE } from "@config";
 import { getBaseUrl } from "@utils/getBaseUrl";
 
@@ -19,6 +20,7 @@ const baseUrl = getBaseUrl();
 const { post } = Astro.props;
 
 const {
+  tags,
   title,
   author,
   description,
@@ -26,7 +28,7 @@ const {
   canonicalURL,
   pubDatetime,
   modDatetime,
-  tags,
+  discussionNumber,
 } = post.data;
 
 const { Content } = await post.render();
@@ -46,6 +48,7 @@ const layoutProps = {
   canonicalURL,
   ogImage: ogUrl,
   scrollSmooth: true,
+  discussionNumber,
 };
 ---
 
@@ -101,6 +104,8 @@ const layoutProps = {
 
       <ShareLinks />
     </div>
+
+    <Comment discussionNumber={post.data.discussionNumber} />
   </main>
   <Footer />
 </Layout>

@@ -14,13 +14,13 @@ gdb(github discussion blog), host blog content on GitHub, using GitHub Discussio
 - Deleted all default labels.
 - Deleted all default categories and sections.
 - Created new section named “Articles”.
-- Created two new categories with type “Announcement”, named “Release” and “Drafts” respective to release and draft posts.
+- Created new category with type “Announcement”, named “Release” respective to release posts.
 
 > You can adjust the section and categories yourself.
 
 ### Fetch script
 
-Now for the fetching part, I had to add and extra build step for Astro, and here’s how it goes:
+For the fetching part extra build step for Astro, and here’s how it goes:
 
 ```json
 "scripts": {
@@ -54,6 +54,19 @@ export const ROUTES = []
 ## Giscus
 
 By default, giscus is enabled. If necessary, please modify the `giscus.config.mjs` configuration yourself.
+
+```ts
+{
+  repo: '',
+  enable: true,
+  lang: "zh-CN",
+  theme: "transparent_dark",
+  inputPosition: "bottom",
+  emitMetadata: 0,
+  reactionsEnabled: 1,
+  lazyLoading: true,
+}
+```
 
 For more configuration content, please go to [Giscus](https://giscus.app/).
 
