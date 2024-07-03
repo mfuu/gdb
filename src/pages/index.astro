@@ -5,7 +5,7 @@ import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import LinkButton from "@components/LinkButton.astro";
 import Hr from "@components/Hr.astro";
-import Card from "@components/Card";
+import Card from "@components/Card.astro";
 import getSortedPosts from "@utils/getSortedPosts";
 import { getBaseUrl } from "@utils/getBaseUrl";
 
@@ -29,10 +29,10 @@ const baseUrl = getBaseUrl();
           <section id="featured">
             <h2>Featured</h2>
             <ul>
-              {featuredPosts.map(({ data, slug }) => (
+              {featuredPosts.map(post => (
                 <Card
-                  href={`${baseUrl}/posts/${slug}/`}
-                  frontmatter={data}
+                  href={`${baseUrl}/posts/${post.slug}/`}
+                  post={post}
                   secHeading={false}
                 />
               ))}
@@ -49,11 +49,11 @@ const baseUrl = getBaseUrl();
           <h2>Recent Posts</h2>
           <ul>
             {recentPosts.map(
-              ({ data, slug }, index) =>
+              (post, index) =>
                 index < 4 && (
                   <Card
-                    href={`${baseUrl}/posts/${slug}/`}
-                    frontmatter={data}
+                    href={`${baseUrl}/posts/${post.slug}/`}
+                    post={post}
                     secHeading={false}
                   />
                 )

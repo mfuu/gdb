@@ -1,0 +1,8 @@
+---
+import { getExcerpt } from "@utils/getExcerpt";
+
+const html = await Astro.slots.render("default");
+const excerpt = getExcerpt(html);
+---
+
+<p class="my-1.5 ml-0.5 line-clamp-3">{excerpt}</p>

@@ -1,17 +1,12 @@
 import Fuse from "fuse.js";
 import { useEffect, useRef, useState, useMemo } from "react";
-import Card from "@components/Card";
+import Datetime from "@components/Datetime";
 import type { CollectionEntry } from "astro:content";
 import { getBaseUrl } from "@utils/getBaseUrl";
 
 const baseUrl = getBaseUrl();
 
-export type SearchItem = {
-  title: string;
-  description: string;
-  data: CollectionEntry<"blog">["data"];
-  slug: string;
-};
+export type SearchItem = CollectionEntry<"blog">;
 
 interface Props {
   searchList: SearchItem[];
@@ -36,7 +31,7 @@ export default function SearchBar({ searchList }: Props) {
   const fuse = useMemo(
     () =>
       new Fuse(searchList, {
-        keys: ["title", "description"],
+        keys: ["slug", "description"],
         includeMatches: true,
         minMatchCharLength: 2,
         threshold: 0.5,
@@ -114,11 +109,16 @@ export default function SearchBar({ searchList }: Props) {
       <ul>
         {searchResults &&
           searchResults.map(({ item, refIndex }) => (
-            <Card
-              href={`${baseUrl}/posts/${item.slug}/`}
-              frontmatter={item.data}
-              key={`${refIndex}-${item.slug}`}
-            />
+            <li key={`${refIndex}-${item.slug}`} className="my-6">
+              <a
+                href={`${baseUrl}/posts/${item.slug}/`}
+                className="inline-block text-lg font-medium text-skin-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
+              >
+                <h2 className="text-lg font-medium decoration-dashed hover:underline">
+                  {item.data.title}
+                </h2>
+              </a>
+            </li>
           ))}
       </ul>
     </>

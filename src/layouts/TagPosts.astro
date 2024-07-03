@@ -4,7 +4,7 @@ import Layout from "@layouts/Layout.astro";
 import Main from "@layouts/Main.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
-import Card from "@components/Card";
+import Card from "@components/Card.astro";
 import Pagination from "@components/Pagination.astro";
 import { SITE } from "@config";
 import { getBaseUrl } from "@utils/getBaseUrl";
@@ -32,8 +32,12 @@ const baseUrl = getBaseUrl();
     <h1 slot="title" transition:name={tag}>{`Tag:${tag}`}</h1>
     <ul>
       {
-        paginatedPosts.map(({ data, slug }) => (
-          <Card href={`${baseUrl}/posts/${slug}/`} frontmatter={data} />
+        paginatedPosts.map(post => (
+          <Card
+            href={`${baseUrl}/posts/${post.slug}/`}
+            post={post}
+            excerpt={false}
+          />
         ))
       }
     </ul>

@@ -5,7 +5,7 @@ import Main from "@layouts/Main.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import Pagination from "@components/Pagination.astro";
-import Card from "@components/Card";
+import Card from "@components/Card.astro";
 import { SITE } from "@config";
 import { getBaseUrl } from "@utils/getBaseUrl";
 
@@ -25,8 +25,8 @@ const baseUrl = getBaseUrl();
   <Main pageTitle="Posts" pageDesc="All the articles I've posted.">
     <ul>
       {
-        paginatedPosts.map(({ data, slug }) => (
-          <Card href={`${baseUrl}/posts/${slug}/`} frontmatter={data} />
+        paginatedPosts.map(post => (
+          <Card href={`${baseUrl}/posts/${post.slug}/`} post={post} />
         ))
       }
     </ul>
