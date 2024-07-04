@@ -5,6 +5,11 @@ import { graphql } from "@octokit/graphql";
 
 const gql = String.raw;
 
+const CATEGORIES = {
+  articles: ["Release"],
+  about: "About",
+};
+
 // npm run fetch --repository "${{github.repository}}"
 const repository = process.argv.slice(2)[0] || "";
 const [owner, repo] = repository.split("/");
@@ -33,7 +38,11 @@ async function fetchData(query) {
   return res;
 }
 
-function formatMarkdownBody(discussion, pinnedNumbers) {
+function formatMarkdownBody(
+  discussion,
+  pinnedNumbers,
+  frontmatterExtends = {}
+) {
   // Extract frontmatter data from discussion Markdown
   const { content: body, data: frontmatter } = matter(discussion.body);
 
@@ -46,6 +55,7 @@ function formatMarkdownBody(discussion, pinnedNumbers) {
     featured: pinnedNumbers.includes(discussion.number),
     description: discussion.title,
     discussionNumber: discussion.number,
+    ...frontmatterExtends,
   });
 
   // Construct the post Markdown content
@@ -125,8 +135,17 @@ async function writeDiscussion() {
 
   discussions.forEach(discussion => {
     const category = discussion.category.slug.toLowerCase();
-    const categories = JSON.parse(process.env.FETCH_CATEGORIES || "[]");
-    if (!categories.some(item => item.toLowerCase() === category)) {
+
+    // Save the about page
+    if (category === CATEGORIES.about.toLowerCase()) {
+      const markdown = formatMarkdownBody(discussion, pinnedNumbers, {
+        layout: "../layouts/AboutLayout.astro",
+      });
+      fs.writeFileSync("src/pages/about.md", markdown);
+      return;
+    }
+
+    if (!CATEGORIES.articles.some(item => item.toLowerCase() === category)) {
       return;
     }
 

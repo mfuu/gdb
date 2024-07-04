@@ -8,7 +8,6 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  FETCH_CATEGORIES: '["Release"]'
 
 permissions:
   contents: write
@@ -16,7 +15,7 @@ permissions:
 
 jobs:
   fetch-discussions:
-    if: ${{ contains(fromJSON('["Release"]'), github.event.discussion.category.slug) }}
+    if: ${{ contains(fromJSON('["Release", "About"]'), github.event.discussion.category.slug) }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
