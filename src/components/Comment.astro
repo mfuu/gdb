@@ -1,20 +1,12 @@
 ---
-import giscusConfig from "../../giscus.config.mjs";
+import giscusConfig from '../../giscus.config.mjs';
 
 export interface Props {
   discussionNumber?: number;
 }
 
-const {
-  repo,
-  lang,
-  theme,
-  enable,
-  lazyLoading,
-  inputPosition,
-  emitMetadata,
-  reactionsEnabled,
-} = giscusConfig;
+const { repo, lang, theme, enable, lazyLoading, inputPosition, emitMetadata, reactionsEnabled } =
+  giscusConfig;
 
 const { discussionNumber } = Astro.props;
 ---
@@ -32,7 +24,7 @@ const { discussionNumber } = Astro.props;
       data-input-position={inputPosition}
       data-theme={theme}
       data-lang={lang}
-      data-loading={lazyLoading && "lazy"}
+      data-loading={lazyLoading && 'lazy'}
       crossorigin="anonymous"
       async
     />

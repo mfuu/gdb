@@ -1,21 +1,25 @@
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
-import { graphql } from "@octokit/graphql";
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+import { graphql } from '@octokit/graphql';
 
 const gql = String.raw;
 
 const CATEGORIES = {
-  articles: ["Release"],
-  about: "About",
+  articles: ['Release'],
+  about: 'About',
 };
 
+const BLOG_PATH = 'src/content/blog';
+const ABOUT_FILE_PATH = 'src/pages/about.md';
+const ABOUT_LAYOUT_FILE_PATH = 'src/layouts/AboutLayout.astro';
+
 // npm run fetch --repository "${{github.repository}}"
-const repository = process.argv.slice(2)[0] || "";
-const [owner, repo] = repository.split("/");
+const repository = process.argv.slice(2)[0] || '';
+const [owner, repo] = repository.split('/');
 
 if (!owner || !repo) {
-  console.error("Invalid github repository");
+  console.error('Invalid github repository');
   process.exit(1);
 }
 
@@ -38,11 +42,7 @@ async function fetchData(query) {
   return res;
 }
 
-function formatMarkdownBody(
-  discussion,
-  pinnedNumbers,
-  frontmatterExtends = {}
-) {
+function formatMarkdownBody(discussion, pinnedNumbers, frontmatterExtends = {}) {
   // Extract frontmatter data from discussion Markdown
   const { content: body, data: frontmatter } = matter(discussion.body);
 
@@ -51,7 +51,7 @@ function formatMarkdownBody(
     title: discussion.title,
     pubDatetime: discussion.createdAt,
     modDatetime: discussion.updatedAt,
-    tags: discussion.labels.nodes.map(label => label.name) || ["test"],
+    tags: discussion.labels.nodes.map(label => label.name) || ['other'],
     featured: pinnedNumbers.includes(discussion.number),
     description: discussion.title,
     discussionNumber: discussion.number,
@@ -59,7 +59,7 @@ function formatMarkdownBody(
   });
 
   // Construct the post Markdown content
-  const markdown = ["---"];
+  const markdown = ['---'];
   Object.keys(frontmatter).forEach(key => {
     const value = frontmatter[key];
     if (Array.isArray(value) && value.length) {
@@ -71,15 +71,15 @@ function formatMarkdownBody(
       markdown.push(`${key}: ${value}`);
     }
   });
-  markdown.push(...["---", body]);
+  markdown.push(...['---', body]);
 
-  return markdown.join("\n").replace(/\r/g, "");
+  return markdown.join('\n').replace(/\r/g, '');
 }
 
 // get all discussions
 async function fetchDiscussions(discussions, after) {
   const res = await fetchData(`
-    discussions(first: 100, ${after ? `after: "${after}",` : ""} orderBy: {field: CREATED_AT, direction: DESC}) {
+    discussions(first: 100, ${after ? `after: "${after}",` : ''} orderBy: {field: CREATED_AT, direction: DESC}) {
       pageInfo {
         hasNextPage
         endCursor
@@ -127,9 +127,7 @@ async function writeDiscussion() {
     }
   `);
   const pinnedDiscussions = pinnedRes.repository.pinnedDiscussions;
-  const pinnedNumbers = pinnedDiscussions.nodes.map(
-    node => node.discussion.number
-  );
+  const pinnedNumbers = pinnedDiscussions.nodes.map(node => node.discussion.number);
 
   const discussions = await fetchDiscussions([]);
 
@@ -139,9 +137,9 @@ async function writeDiscussion() {
     // Save the about page
     if (category === CATEGORIES.about.toLowerCase()) {
       const markdown = formatMarkdownBody(discussion, pinnedNumbers, {
-        layout: "../layouts/AboutLayout.astro",
+        layout: ABOUT_LAYOUT_FILE_PATH,
       });
-      fs.writeFileSync("src/pages/about.md", markdown);
+      fs.writeFileSync(ABOUT_FILE_PATH, markdown);
       return;
     }
 
@@ -151,13 +149,11 @@ async function writeDiscussion() {
 
     const markdown = formatMarkdownBody(discussion, pinnedNumbers);
 
-    const slug = (
-      discussion.title.match(/[a-zA-Z0-9\u4e00-\u9fa5_-]/g) || []
-    ).join("");
+    const slug = (discussion.title.match(/[a-zA-Z0-9\u4e00-\u9fa5_-]/g) || []).join('');
     const filename = `${slug ?? discussion.number}.md`;
 
     // Save new formatted Markdown to a file under "src/content/blog"
-    const dist = path.join(process.cwd(), "src/content/blog");
+    const dist = path.join(process.cwd(), BLOG_PATH);
 
     if (!fs.existsSync(dist)) {
       fs.mkdirSync(dist);

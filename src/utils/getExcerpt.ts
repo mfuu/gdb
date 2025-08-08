@@ -1,13 +1,13 @@
-export function getExcerpt(html: string, length = 500): string {
+function getExcerpt(html: string, length = 500): string {
   const EXCERPT_REGEX = /([\n\r]|<\/?("[^"]*"|'[^']*'|[^>])*(>|$))/g;
   const stripped = html
-    .replace(EXCERPT_REGEX, " ")
-    .split(" ")
-    .filter(v => v != "")
-    .join(" ");
-  const separators = ["。", "，", ".", ",", "：", ":", ")", "）"];
+    .replace(EXCERPT_REGEX, ' ')
+    .split(' ')
+    .filter(v => v != '')
+    .join(' ');
+  const separators = ['。', '，', '.', ',', '：', ':', ')', '）'];
 
-  let output = "";
+  let output = '';
   let len = 0,
     i = 0;
   while (len < length && i < stripped.length) {
@@ -25,3 +25,5 @@ export function getExcerpt(html: string, length = 500): string {
   }
   return output.substring(0, output_until);
 }
+
+export default getExcerpt;
