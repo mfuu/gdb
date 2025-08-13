@@ -10,13 +10,11 @@ export default {
   site: 'https://mfuu.github.io/',
   base: 'gdb',
   author: 'mfuu',
-  profile: 'https://mfuu.github.io/',
   description: 'A minimal, responsive and SEO-friendly Astro blog theme.',
   title: 'GDB',
   ogImage: 'og.jpg',
   lightAndDarkMode: true,
-  postPerIndex: 4,
-  postPerPage: 4,
+  postPageSize: 5,
   dynamicOgImage: true,
   dir: 'ltr', // "rtl" | "auto"
   lang: 'en', // html lang code. Set this empty and default will be "en"

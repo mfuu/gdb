@@ -52,7 +52,7 @@ function formatMarkdownBody(discussion, pinnedNumbers, frontmatterExtends = {}) 
     pubDatetime: discussion.createdAt,
     modDatetime: discussion.updatedAt,
     tags: discussion.labels.nodes.map(label => label.name) || ['other'],
-    featured: pinnedNumbers.includes(discussion.number),
+    pinned: pinnedNumbers.includes(discussion.number),
     description: discussion.title,
     discussionNumber: discussion.number,
     ...frontmatterExtends,

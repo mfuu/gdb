@@ -35,20 +35,24 @@ For the script, you can found in `/scripts/fetch-discussions.mjs`
 Change your website config in `src/config.ts`, such as:
 
 ```ts
-export const SITE: Site = {
-  website: "",
-  base: "",
-  author: "",
-  desc: "",
-  title: "",
-  lightAndDarkMode: true,
-  postPerPage: 5,
-  scheduledPostMargin: 15 * 60 * 1000, // 15 minutes
+export default {
+  site: '', // your website url
+  base: '', // your website base path
+  author: '',
+  description: '', // your website description
+  title: '', // your website title
+  ogImage: 'og.jpg', // your website og image
+  lightAndDarkMode: true, // enable light and dark mode
+  postPageSize: 4, // post per page size
+  dynamicOgImage: true,
+  dir: 'ltr', // "rtl" | "auto"
+  lang: 'en', // html lang code. Set this empty and default will be "en"
+  timezone: 'Asia/Shanghai', // Default global timezone (IANA format) https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+
+  socials: [], // social links
+
+  shareLinks: [], // post share links
 };
-
-export const ROUTES = []
-
-...
 ```
 
 ## Giscus

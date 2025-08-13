@@ -11,9 +11,8 @@ dayjs.extend(timezone);
 export interface Props {
   class?: string;
   size?: 'sm' | 'lg';
-  timezone: string | undefined;
   pubDatetime: string | Date;
-  modDatetime: string | Date | undefined | null;
+  modDatetime: string | Date | undefined;
 }
 
 const {
@@ -21,24 +20,23 @@ const {
   modDatetime,
   size = 'sm',
   class: className = '',
-  timezone: postTimezone,
 } = Astro.props;
 
 /* ========== Formatted Datetime ========== */
 const isModified = modDatetime && modDatetime > pubDatetime;
 
-const datetime = dayjs(isModified ? modDatetime : pubDatetime).tz(postTimezone || config.timezone);
+const datetime = dayjs(isModified ? modDatetime : pubDatetime).tz(config.timezone);
 
-const date = datetime.format('D MMM, YYYY'); // e.g., '22 Mar, 2025'
+const date = datetime.format('YYYY/MM/DD');
 ---
 
 <div class:list={['flex items-center gap-x-2 opacity-80', className]}>
   <IconCalendar
-    class:list={['inline-block size-6 min-w-[1.375rem]', { 'scale-90': size === 'sm' }]}
+    class:list={['inline-block size-5 min-w-[1.25rem]', { 'scale-90': size === 'sm' }]}
   />
   {isModified && <span class:list={['text-sm', { 'sm:text-base': size === 'lg' }]}>Updated:</span>}
   <time
     class:list={['text-sm', { 'sm:text-base': size === 'lg' }]}
-    datetime={datetime.toISOString()}>{date}</time
+    datetime={datetime.toString()}>{date}</time
   >
 </div>

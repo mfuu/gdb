@@ -14,20 +14,20 @@ import { getSortedPosts } from '@/utils/getPosts';
 const posts = await getCollection('blog');
 
 const sortedPosts = getSortedPosts(posts);
-const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
-const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+const pinnedPosts = sortedPosts.filter(({ data }) => data.pinned);
+const recentPosts = sortedPosts.filter(({ data }) => !data.pinned);
 ---
 
 <Layout>
   <Header />
   <main id="main-content">
     {
-      featuredPosts.length > 0 && (
+      pinnedPosts.length > 0 && (
         <>
-          <section id="featured" class="pt-12 pb-6">
-            <h2 class="text-2xl font-semibold tracking-wide">Featured</h2>
+          <section id="pinned" class="pt-12 pb-6">
+            <h2 class="text-2xl font-semibold tracking-wide">Pinned</h2>
             <ul>
-              {featuredPosts.map(data => (
+              {pinnedPosts.map(data => (
                 <Card variant="h3" {...data} />
               ))}
             </ul>
@@ -43,7 +43,7 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
           <h2 class="text-2xl font-semibold tracking-wide">Recent Posts</h2>
           <ul>
             {recentPosts.map(
-              (data, index) => index < config.postPerIndex && <Card variant="h3" {...data} />
+              (data, index) => index < config.postPageSize && <Card variant="h3" {...data} />
             )}
           </ul>
         </section>
