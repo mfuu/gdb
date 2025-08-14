@@ -11,6 +11,9 @@ import config from './src/config';
 export default defineConfig({
   site: config.site,
   base: config.base,
+  build: {
+    assets: 'assets',
+  },
   trailingSlash: 'ignore',
   markdown: {
     shikiConfig: {
