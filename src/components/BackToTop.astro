@@ -1,0 +1,51 @@
+---
+import dayjs from 'dayjs';
+import config from '@/config';
+
+export interface Props {
+  title?: string;
+  pubDatetime: string | Date;
+  modDatetime: string | Date | undefined;
+}
+
+const { title, pubDatetime, modDatetime } = Astro.props;
+
+const isModified = modDatetime && modDatetime > pubDatetime;
+
+const datetime = dayjs(isModified ? modDatetime : pubDatetime).tz(config.timezone);
+const date = datetime.format('YYYY/MM/DD');
+---
+
+<section id="back-to-top" class="fixed top-0 right-0 left-0 z-9 hidden max-w-none border-b">
+  <div class="max-w-app mx-auto flex w-full items-center justify-between px-4">
+    <div class="min-width-0 my-2 flex flex-col">
+      <a class="text-lg" href="#top">
+        {title}
+      </a>
+      <time class="text-xs" datetime={datetime.toString()}>{date}</time>
+    </div>
+    <a href="#top" class="back-to-top">
+      <span class="cursor text-xs hover:underline">Back to top</span>
+    </a>
+  </div>
+</section>
+
+<script is:inline data-astro-rerun>
+  function detectedBackToTopVisible() {
+    document.addEventListener('scroll', () => {
+      const rect = document.getElementById('nav-container').getBoundingClientRect();
+      if (rect.top + rect.height < -50) {
+        document.getElementById('back-to-top').classList.remove('hidden');
+      } else {
+        document.getElementById('back-to-top').classList.add('hidden');
+      }
+    });
+  }
+  detectedBackToTopVisible();
+</script>
+
+<style>
+  #back-to-top {
+    background-color: var(--background);
+  }
+</style>

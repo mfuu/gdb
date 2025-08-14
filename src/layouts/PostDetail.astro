@@ -7,6 +7,7 @@ import Tag from '@/components/Tag.astro';
 import Datetime from '@/components/Datetime.astro';
 import ShareLinks from '@/components/ShareLinks.astro';
 import Comment from '@/components/Comment.astro';
+import BackToTop from '@/components/BackToTop.astro';
 import getPath from '@/utils/getPath';
 import { slugifyStr } from '@/utils/slugify';
 import IconChevronLeft from '@/assets/icons/IconChevronLeft.svg';
@@ -75,7 +76,8 @@ const nextPost = currentPostIndex !== allPosts.length ? allPosts[currentPostInde
 
 <Layout {...layoutProps}>
   <Header />
-  <main id="main-content" class="max-w-app mx-auto w-full px-4 pt-12 pb-12" data-pagefind-body>
+  <BackToTop title={title} pubDatetime={pubDatetime} modDatetime={modDatetime} />
+  <main id="main-content" class="max-w-app mx-auto w-full px-4 pt-8 pb-12" data-pagefind-body>
     <h1
       transition:name={slugifyStr(title)}
       class="text-accent inline-block text-2xl font-bold sm:text-3xl"

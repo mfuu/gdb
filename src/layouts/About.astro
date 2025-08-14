@@ -2,13 +2,15 @@
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 import Layout from './Layout.astro';
-import config from '@/config';
 import Main from './Main.astro';
+import Comment from '@/components/Comment.astro';
+import config from '@/config';
 
 export interface Props {
   frontmatter: {
     title: string;
     description?: string;
+    discussionNumber?: number;
   };
 }
 
@@ -24,6 +26,8 @@ const { frontmatter } = Astro.props;
     >
       <slot />
     </article>
+
+    <Comment discussionNumber={frontmatter.discussionNumber} />
   </Main>
   <Footer />
 </Layout>
