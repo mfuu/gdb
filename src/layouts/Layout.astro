@@ -28,7 +28,7 @@ const {
   scrollSmooth = false,
 } = Astro.props;
 
-const socialImage = ogImage ?? 'og.png';
+const socialImageUrl = getUrl(ogImage ?? 'og.png');
 ---
 
 <!doctype html>
@@ -51,7 +51,7 @@ const socialImage = ogImage ?? 'og.png';
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:image" content={getUrl(socialImage)} />
+    <meta property="og:image" content={socialImageUrl} />
 
     <!-- Article Published/Modified time -->
     {pubDatetime && <meta property="article:published_time" content={pubDatetime.toISOString()} />}
@@ -62,7 +62,7 @@ const socialImage = ogImage ?? 'og.png';
     <meta property="twitter:url" content={canonicalURL} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={getUrl(socialImage)} />
+    <meta property="twitter:image" content={socialImageUrl} />
 
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

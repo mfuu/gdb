@@ -2,7 +2,7 @@
 
 ![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white) ![mdx](https://img.shields.io/badge/mdx-yellow?style=for-the-badge&logo=MDX&logoColor=white) ![giscus](https://img.shields.io/badge/giscus-%2319c37d?style=for-the-badge&logo=giscus&logoColor=white)
 
-**What is gdb**
+## What is gdb
 
 gdb(github discussion blog), host blog content on GitHub, using GitHub Discussions as CMS for our Markdown content and then eventually using GitHub API to retrieve the content.
 
@@ -18,7 +18,7 @@ gdb(github discussion blog), host blog content on GitHub, using GitHub Discussio
 
 > You can adjust the section and categories yourself.
 
-### Fetch script
+### Script
 
 For the fetching part extra build step for Astro, and here’s how it goes:
 
@@ -28,11 +28,15 @@ For the fetching part extra build step for Astro, and here’s how it goes:
 },
 ```
 
-For the script, you can found in `/scripts/fetch-discussions.mjs`
+**Usage**
+
+```shell
+npm run fetch --repository "${{github.repository}}" # for example: npm run fetch --repository "mfuu/gdb"
+```
 
 ## Config
 
-Change your website config in `src/config.ts`, such as:
+Change your website config in `src/config.ts`
 
 ```ts
 export default {
@@ -41,7 +45,7 @@ export default {
   author: '',
   description: '', // your website description
   title: '', // your website title
-  ogImage: 'og.jpg', // your website og image
+  ogImage: 'og.png', // your website og image
   lightAndDarkMode: true, // enable light and dark mode
   postPageSize: 4, // post per page size
   dynamicOgImage: true,
@@ -72,16 +76,12 @@ By default, giscus is enabled. If necessary, please modify the `giscus.config.mj
 }
 ```
 
-For more configuration content, please go to [Giscus](https://giscus.app/).
-
-> Please ensure that your repo has [installed](https://github.com/apps/giscus) the Giscus App.
+For more configuration content, please go to [Giscus](https://giscus.app/). Please ensure that your repo has [installed](https://github.com/apps/giscus) the Giscus App.
 
 ## Deploy
 
-Automatic synchronization with Gitubb Wokflow, detail in `.github/workflows/discussions.yml`
-
-> If you have adjusted the category name of the Discussion, please modify the env variable too.
+Automatic synchronization with Gitubb Wokflow, detail in `.github/workflows/discussions.yml`. If you have adjusted the category name of the Discussion, please modify the env variable too.
 
 ## Others
 
-My blog theme source: [AstroPaper](https://github.com/satnaing/astro-paper), of course, you can freely adjust it to the theme you want.
+My blog theme source: [AstroPaper](https://github.com/satnaing/astro-paper). Of course you can freely adjust it to the theme you want.

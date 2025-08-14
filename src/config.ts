@@ -12,7 +12,7 @@ export default {
   author: 'mfuu',
   description: 'A minimal, responsive and SEO-friendly Astro blog theme.',
   title: 'GDB',
-  ogImage: 'og.jpg',
+  ogImage: 'og.png',
   lightAndDarkMode: true,
   postPageSize: 5,
   dynamicOgImage: true,

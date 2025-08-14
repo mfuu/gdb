@@ -12,7 +12,7 @@ const CATEGORIES = {
 
 const BLOG_PATH = 'src/content/blog';
 const ABOUT_FILE_PATH = 'src/pages/about.md';
-const ABOUT_LAYOUT_FILE_PATH = 'src/layouts/AboutLayout.astro';
+const ABOUT_LAYOUT_FILE_PATH = 'src/layouts/About.astro';
 
 // npm run fetch --repository "${{github.repository}}"
 const repository = process.argv.slice(2)[0] || '';

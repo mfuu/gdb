@@ -34,22 +34,19 @@ const {
 
 const { Content } = await render(post);
 
-let ogImageUrl: string | undefined;
+let ogImage: string | undefined;
 
 // Determine OG image source
 if (typeof initOgImage === 'string') {
-  ogImageUrl = initOgImage; // Remote OG image (absolute URL)
+  ogImage = initOgImage; // Remote OG image (absolute URL)
 } else if (initOgImage?.src) {
-  ogImageUrl = initOgImage.src; // Local asset
+  ogImage = initOgImage.src; // Local asset
 }
 
 // Use dynamic OG image if enabled and no remote|local ogImage
-if (!ogImageUrl && config.dynamicOgImage) {
-  ogImageUrl = `${getPath(`/posts/${post.slug}`)}/index.png`;
+if (!ogImage && config.dynamicOgImage) {
+  ogImage = `/posts/${post.slug}/index.png`;
 }
-
-// Resolve OG image URL (or fallback to config.ogImage / default `og.png`)
-const ogImage = ogImageUrl ? new URL(ogImageUrl, Astro.url.origin).href : undefined;
 
 const layoutProps = {
   title: `${title} | ${config.title}`,
@@ -78,7 +75,7 @@ const nextPost = currentPostIndex !== allPosts.length ? allPosts[currentPostInde
 
 <Layout {...layoutProps}>
   <Header />
-  <main id="main-content" class="max-w-app mx-auto w-full px-4 pb-12 pt-12" data-pagefind-body>
+  <main id="main-content" class="max-w-app mx-auto w-full px-4 pt-12 pb-12" data-pagefind-body>
     <h1
       transition:name={slugifyStr(title)}
       class="text-accent inline-block text-2xl font-bold sm:text-3xl"
