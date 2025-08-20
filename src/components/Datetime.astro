@@ -10,33 +10,42 @@ dayjs.extend(timezone);
 
 export interface Props {
   class?: string;
-  size?: 'sm' | 'lg';
+  size?: 'xs' | 'sm' | 'lg';
   pubDatetime: string | Date;
   modDatetime: string | Date | undefined;
 }
 
-const {
-  pubDatetime,
-  modDatetime,
-  size = 'sm',
-  class: className = '',
-} = Astro.props;
+const TextClassMap = {
+  xs: ['text-xs'],
+  sm: ['text-sm'],
+  lg: ['text-sm', 'sm:text-base'],
+};
+
+const { pubDatetime, modDatetime, size = 'sm', class: className = '' } = Astro.props;
 
 /* ========== Formatted Datetime ========== */
 const isModified = modDatetime && modDatetime > pubDatetime;
 
 const datetime = dayjs(isModified ? modDatetime : pubDatetime).tz(config.timezone);
 
-const date = datetime.format('YYYY/MM/DD');
+const date = datetime.format(config.dateFormat);
+const dateDetail = datetime.format(config.dateDetailFormat);
 ---
 
-<div class:list={['flex items-center gap-x-2 opacity-80', className]}>
+<div
+  class:list={[
+    'flex items-center opacity-80',
+    { 'gap-x-1': size === 'xs', 'gap-x-2': size !== 'xs' },
+    className,
+  ]}
+  title={dateDetail}
+>
   <IconCalendar
-    class:list={['inline-block size-5 min-w-[1.25rem]', { 'scale-90': size === 'sm' }]}
+    class:list={[
+      'inline-block size-5 min-w-[.25rem]',
+      { 'scale-90': size === 'sm', 'scale-70': size === 'xs' },
+    ]}
   />
-  {isModified && <span class:list={['text-sm', { 'sm:text-base': size === 'lg' }]}>Updated:</span>}
-  <time
-    class:list={['text-sm', { 'sm:text-base': size === 'lg' }]}
-    datetime={datetime.toString()}>{date}</time
-  >
+  {isModified && <span class:list={TextClassMap[size]}>Updated:</span>}
+  <time class:list={TextClassMap[size]} datetime={dateDetail}>{date}</time>
 </div>
