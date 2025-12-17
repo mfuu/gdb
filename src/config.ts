@@ -14,6 +14,7 @@ export default {
   title: 'GDB',
   ogImage: 'og.png',
   lightAndDarkMode: true,
+  showArchives: true,
   postPageSize: 5,
   dynamicOgImage: true,
   dir: 'ltr', // "rtl" | "auto"
@@ -21,6 +22,19 @@ export default {
   timezone: 'Asia/Shanghai', // Default global timezone (IANA format) https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   dateFormat: 'MMM D, YYYY',
   dateDetailFormat: 'MMMM D, YYYY, h:mm A',
+
+  giscus: {
+    enable: true,
+    repo: 'mfuu/gdb',
+    mapping: 'number',
+    emitMetadata: 0,
+    inputPosition: 'bottom',
+    reactionsEnabled: 1,
+    lang: 'zh-CN',
+    loading: 'lazy',
+    lightTheme: 'light',
+    darkTheme: 'dark',
+  },
 
   socials: [
     {

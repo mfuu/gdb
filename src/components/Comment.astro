@@ -1,32 +1,73 @@
 ---
-import giscusConfig from '../../giscus.config.mjs';
+import config from '@/config';
 
 export interface Props {
   discussionNumber?: number;
 }
 
-const { repo, lang, theme, enable, lazyLoading, inputPosition, emitMetadata, reactionsEnabled } =
-  giscusConfig;
+const {
+  enable,
+  repo,
+  mapping,
+  emitMetadata,
+  inputPosition,
+  reactionsEnabled,
+  lang,
+  loading,
+  lightTheme,
+  darkTheme,
+} = config.giscus;
 
 const { discussionNumber } = Astro.props;
 ---
 
-{
-  enable ? (
-    <script
-      is:inline
-      src="https://giscus.app/client.js"
-      data-repo={repo}
-      data-mapping="number"
-      data-term={discussionNumber}
-      data-reactions-enabled={reactionsEnabled}
-      data-emit-metadata={emitMetadata}
-      data-input-position={inputPosition}
-      data-theme={theme}
-      data-lang={lang}
-      data-loading={lazyLoading && 'lazy'}
-      crossorigin="anonymous"
-      async
-    />
-  ) : null
-}
+{enable ? <div id="giscus-container" /> : null}
+
+<script
+  is:inline
+  data-astro-rerun
+  define:vars={{
+    enable,
+    repo,
+    mapping,
+    emitMetadata,
+    inputPosition,
+    reactionsEnabled,
+    lang,
+    loading,
+    lightTheme,
+    darkTheme,
+    term: discussionNumber,
+  }}
+>
+  function installGiscus() {
+    const container = document.getElementById('giscus-container');
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    const currentTheme = localStorage.getItem('theme');
+    const browserTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light';
+    const theme = currentTheme || browserTheme;
+
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.async = true;
+    script.setAttribute('data-repo', repo);
+    script.setAttribute('data-mapping', mapping);
+    script.setAttribute('data-term', term);
+    script.setAttribute('data-reactions-enabled', reactionsEnabled);
+    script.setAttribute('data-emit-metadata', emitMetadata);
+    script.setAttribute('data-input-position', inputPosition);
+    script.setAttribute('data-lang', lang);
+    script.setAttribute('data-loading', loading);
+    script.setAttribute('data-theme', theme === 'dark' ? darkTheme : lightTheme);
+    script.setAttribute('crossorigin', 'anonymous');
+
+    container.appendChild(script);
+  }
+
+  installGiscus();
+</script>

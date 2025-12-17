@@ -5,6 +5,7 @@ import Datetime from './Datetime.astro';
 import getPath from '@/utils/getPath';
 import Excerpt from './Excerpt.astro';
 import Tag from './Tag.astro';
+import IconPinned from '@/assets/icons/IconPinned.svg';
 
 export interface Props extends CollectionEntry<'blog'> {
   variant?: 'h2' | 'h3';
@@ -13,7 +14,7 @@ export interface Props extends CollectionEntry<'blog'> {
 
 const { variant = 'h2', data, slug, excerpt = true, render } = Astro.props;
 
-const { title, tags, pubDatetime, modDatetime } = data;
+const { title, tags, pinned, pubDatetime, modDatetime } = data;
 
 const headerProps = {
   style: { viewTransitionName: slugifyStr(title) },
@@ -42,5 +43,6 @@ const { Content } = await render();
     <ul class="ml-2 opacity-80">
       {tags.map(tag => <Tag size="sm" tag={slugifyStr(tag)} tagName={tag} />)}
     </ul>
+    {pinned && <IconPinned class="ml-auto w-4 opacity-80" />}
   </div>
 </li>

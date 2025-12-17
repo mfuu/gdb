@@ -67,11 +67,15 @@ const isActive = (path: string) => {
           <li class="col-span-2">
             <a href={getPath('/tags')} class:list={{ 'active-nav': isActive('/tags') }}> Tags </a>
           </li>
-          <li class="col-span-2">
-            <a href={getPath('/archives')} class:list={{ 'active-nav': isActive('/archives') }}>
-              Archives
-            </a>
-          </li>
+          {
+            config.showArchives && (
+              <li class="col-span-2">
+                <a href={getPath('/archives')} class:list={{ 'active-nav': isActive('/archives') }}>
+                  Archives
+                </a>
+              </li>
+            )
+          }
           <li class="col-span-2">
             <a href={getPath('/about')} class:list={{ 'active-nav': isActive('/about') }}>
               About

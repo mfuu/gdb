@@ -61,18 +61,20 @@ export default {
 
 ## Giscus
 
-By default, giscus is enabled. If necessary, please modify the `giscus.config.mjs` configuration yourself.
+By default, giscus is enabled. If necessary, please modify the `src/config` configuration yourself.
 
 ```ts
-{
-  repo: '',
+giscus: {
   enable: true,
-  lang: "zh-CN",
-  theme: "transparent_dark",
-  inputPosition: "bottom",
+  repo: '',
+  mapping: 'number',
   emitMetadata: 0,
+  inputPosition: 'bottom',
   reactionsEnabled: 1,
-  lazyLoading: true,
+  lang: 'zh-CN',
+  loading: 'lazy',
+  lightTheme: 'light',
+  darkTheme: 'dark',
 }
 ```
 

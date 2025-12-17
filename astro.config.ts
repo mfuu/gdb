@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import {
   transformerNotationDiff,
@@ -15,6 +16,11 @@ export default defineConfig({
     assets: 'assets',
   },
   trailingSlash: 'ignore',
+  integrations: [
+    sitemap({
+      filter: page => config.showArchives || !page.endsWith('/archives'),
+    }),
+  ],
   markdown: {
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes

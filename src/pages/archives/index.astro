@@ -8,6 +8,11 @@ import Card from '@/components/Card.astro';
 import getArchives from '@/utils/getArchives';
 import config from '@/config';
 
+// Redirect to 404 page if `showArchives` config is false
+if (!config.showArchives) {
+  return Astro.redirect("/404");
+}
+
 const posts = await getCollection('blog', ({ data }) => !data.draft);
 
 const months = [
