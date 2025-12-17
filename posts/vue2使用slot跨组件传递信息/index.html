@@ -86,10 +86,14 @@ About
       if (!document) return;
 
       const rect = document.getElementById('nav-container').getBoundingClientRect();
+      const backToTop = document.getElementById('back-to-top');
+
+      if (!backToTop) return;
+
       if (rect.top + rect.height < -50) {
-        document.getElementById('back-to-top').classList.remove('invisible');
+        backToTop.classList.remove('invisible');
       } else {
-        document.getElementById('back-to-top').classList.add('invisible');
+        backToTop.classList.add('invisible');
       }
     });
   }
