@@ -47,6 +47,7 @@ export default {
   title: '', // your website title
   ogImage: 'og.png', // your website og image
   lightAndDarkMode: true, // enable light and dark mode
+  showArchives: true, // show archives page
   postPageSize: 4, // post per page size
   dynamicOgImage: true,
   dir: 'ltr', // "rtl" | "auto"
@@ -78,11 +79,11 @@ giscus: {
 }
 ```
 
-For more configuration content, please go to [Giscus](https://giscus.app/). Please ensure that your repo has [installed](https://github.com/apps/giscus) the Giscus App.
+Please ensure that your repo has [installed](https://github.com/apps/giscus) the [Giscus](https://giscus.app/) App.
 
 ## Deploy
 
-Automatic synchronization with Gitubb Wokflow, detail in `.github/workflows/discussions.yml`. If you have adjusted the category name of the Discussion, please modify the env variable too.
+Automatic synchronization with Gitubb Wokflow, detail in `.github/workflows/deploy.yml`. If you have adjusted the category name of the Discussion, please modify the env variable too.
 
 ## Others
 
