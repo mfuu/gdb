@@ -18,7 +18,6 @@ permissions:
 
 jobs:
   fetch-discussions:
-    if: ${{ contains(fromJSON('["Release", "About"]'), github.event.discussion.category.slug) || github.event_name == 'push'}}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
