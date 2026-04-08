@@ -1,0 +1,22 @@
+name: Clean Dependencies
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: delete node_modules and package-lock.json
+        run: |
+          rm -rf node_modules
+          rm -f package-lock.json
+          echo "✅ cleaned node_modules + package-lock.json"
