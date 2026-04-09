@@ -17,7 +17,7 @@ const sortedPosts = getSortedPosts(posts);
 
 <Layout>
   <Header />
-  <main id="main-content">
+  <main id="main-content" data-layout="index" class="app-layout">
     {
       sortedPosts.length > 0 && (
         <section id="recent-posts" class="pt-12 pb-6">

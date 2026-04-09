@@ -1,23 +1,13 @@
 ---
-import config from '@/config';
+type StringTitle = { pageTitle: string };
+type ArrayTitle = { pageTitle: [string, string]; titleTransition: string };
 
-interface StringTitleProp {
-  pageTitle: string;
-  pageDesc?: string;
-}
-
-interface ArrayTitleProp {
-  pageTitle: [string, string];
-  titleTransition: string;
-  pageDesc?: string;
-}
-
-export type Props = StringTitleProp | ArrayTitleProp;
+export type Props = (StringTitle | ArrayTitle) & { pageDesc?: string };
 
 const { props } = Astro;
 ---
 
-<main id="main-content" class="max-w-app mx-auto w-full px-4 pt-8 pb-4">
+<main id="main-content" class="app-layout pt-8 pb-4">
   {
     'titleTransition' in props ? (
       <h1 class="text-2xl font-semibold sm:text-3xl">

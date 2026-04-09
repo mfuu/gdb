@@ -33,7 +33,7 @@ const months = [
 
 <Layout title={`Archives | ${config.title}`}>
   <Header />
-  <Main pageTitle="Archives">
+  <Main pageTitle="Archives" pageDesc="All the articles I've archived.">
     {
       Object.entries(getArchives(posts, post => post.data.pubDatetime.getFullYear()))
         .sort(([yearA], [yearB]) => Number(yearB) - Number(yearA))

@@ -46,7 +46,7 @@ if (typeof initOgImage === 'string') {
 
 // Use dynamic OG image if enabled and no remote|local ogImage
 if (!ogImage && config.dynamicOgImage) {
-  ogImage = `/posts/${post.slug}/index.png`;
+  ogImage = getPath(`/posts/${post.slug}/index.png`);
 }
 
 const layoutProps = {
@@ -77,7 +77,7 @@ const nextPost = currentPostIndex !== allPosts.length ? allPosts[currentPostInde
 <Layout {...layoutProps}>
   <Header />
   <BackToTop title={title} pubDatetime={pubDatetime} modDatetime={modDatetime} />
-  <main id="main-content" class="max-w-app mx-auto w-full px-4 pt-8 pb-12" data-pagefind-body>
+  <main id="main-content" class="app-layout mt-8 pb-12" data-pagefind-body>
     <h1
       transition:name={slugifyStr(title)}
       class="text-accent inline-block text-2xl font-bold sm:text-3xl"
@@ -89,7 +89,7 @@ const nextPost = currentPostIndex !== allPosts.length ? allPosts[currentPostInde
     </div>
     <article
       id="article"
-      class="app-prose max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg) mx-auto mt-8"
+      class="app-prose max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg) mt-8 w-full"
     >
       <Content />
     </article>

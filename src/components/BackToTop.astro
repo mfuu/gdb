@@ -34,7 +34,7 @@ const { title, pubDatetime, modDatetime } = Astro.props;
     document.addEventListener('scroll', () => {
       if (!document) return;
 
-      const rect = document.getElementById('nav-container').getBoundingClientRect();
+      const rect = document.getElementById('top-nav-wrap').getBoundingClientRect();
       const backToTop = document.getElementById('back-to-top');
 
       if (!backToTop) return;
