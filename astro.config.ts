@@ -24,7 +24,7 @@ export default defineConfig({
   markdown: {
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes
-      themes: { light: 'min-light', dark: 'night-owl' },
+      themes: { light: 'github-light-default', dark: 'one-dark-pro' },
       defaultColor: false,
       wrap: false,
       transformers: [
