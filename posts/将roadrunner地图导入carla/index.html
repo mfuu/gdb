@@ -23,7 +23,7 @@
           },
         };
       })();
-    </script><link rel="stylesheet" href="/gdb/assets/about.DWuu7-ir.css">
+    </script><link rel="stylesheet" href="/gdb/assets/about.BIJaYJBu.css">
 <style>:where([data-astro-image]){object-fit:var(--fit);object-position:var(--pos);height:auto}:where([data-astro-image=full-width]){width:100%}:where([data-astro-image=constrained]){max-width:100%}
 @keyframes astroFadeInOut{0%{opacity:1}to{opacity:0}}@keyframes astroFadeIn{0%{opacity:0;mix-blend-mode:plus-lighter}to{opacity:1;mix-blend-mode:plus-lighter}}@keyframes astroFadeOut{0%{opacity:1;mix-blend-mode:plus-lighter}to{opacity:0;mix-blend-mode:plus-lighter}}@keyframes astroSlideFromRight{0%{transform:translate(100%)}}@keyframes astroSlideFromLeft{0%{transform:translate(-100%)}}@keyframes astroSlideToRight{to{transform:translate(100%)}}@keyframes astroSlideToLeft{to{transform:translate(-100%)}}@media(prefers-reduced-motion){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}[data-astro-transition-scope]{animation:none!important}}
 #back-to-top[data-astro-cid-wlspcwf4]{background-color:var(--background)}
@@ -149,7 +149,7 @@ Archives
 </li>
 <li>
 <p>进入 <code>D:\CarlaUE4\Import\Map01</code> 目录，创建 <code>package.json</code> 文件，文件内容如下：</p>
-<pre class="astro-code astro-code-themes min-light night-owl" style="--shiki-light:#24292eff;--shiki-dark:#d6deeb;--shiki-light-bg:#ffffff;--shiki-dark-bg:#011627; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>{</span></span>
+<pre class="astro-code astro-code-themes github-light-default one-dark-pro" style="--shiki-light:#1f2328;--shiki-dark:#abb2bf;--shiki-light-bg:#ffffff;--shiki-dark-bg:#282c34; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>{</span></span>
 <span class="line"><span>    "maps": [</span></span>
 <span class="line"><span>        {</span></span>
 <span class="line"><span>            "name": "&#x3C;mapName>",</span></span>
@@ -163,13 +163,13 @@ Archives
 </li>
 <li>
 <p>打开 x64 Native Tools Command Prompt for VS 2022 命令行，执行：</p>
-<pre class="astro-code astro-code-themes min-light night-owl" style="--shiki-light:#24292eff;--shiki-dark:#d6deeb;--shiki-light-bg:#ffffff;--shiki-dark-bg:#011627; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>cd D:\CarlaUE4</span></span>
+<pre class="astro-code astro-code-themes github-light-default one-dark-pro" style="--shiki-light:#1f2328;--shiki-dark:#abb2bf;--shiki-light-bg:#ffffff;--shiki-dark-bg:#282c34; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>cd D:\CarlaUE4</span></span>
 <span class="line"><span></span></span>
 <span class="line"><span>make import  ARGS="--no-carla-materials"</span></span></code></pre>
 </li>
 <li>
 <p>上一步执行完成后进入 <code>D:\CarlaUE4\Util\BuildTools</code> 目录，执行：</p>
-<pre class="astro-code astro-code-themes min-light night-owl" style="--shiki-light:#24292eff;--shiki-dark:#d6deeb;--shiki-light-bg:#ffffff;--shiki-dark-bg:#011627; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>python Import.py</span></span></code></pre>
+<pre class="astro-code astro-code-themes github-light-default one-dark-pro" style="--shiki-light:#1f2328;--shiki-dark:#abb2bf;--shiki-light-bg:#ffffff;--shiki-dark-bg:#282c34; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>python Import.py</span></span></code></pre>
 <p>等待执行完成，最终生成的地图在<code>D:\CarlaUE4\Unreal\CarlaUE4\Content\package</code></p>
 </li>
 </ol>
@@ -177,7 +177,7 @@ Archives
 <ol>
 <li>
 <p>启动 CARLA，执行</p>
-<pre class="astro-code astro-code-themes min-light night-owl" style="--shiki-light:#24292eff;--shiki-dark:#d6deeb;--shiki-light-bg:#ffffff;--shiki-dark-bg:#011627; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>make launch // make launch-only 跳过编译</span></span></code></pre>
+<pre class="astro-code astro-code-themes github-light-default one-dark-pro" style="--shiki-light:#1f2328;--shiki-dark:#abb2bf;--shiki-light-bg:#ffffff;--shiki-dark-bg:#282c34; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>make launch // make launch-only 跳过编译</span></span></code></pre>
 </li>
 <li>
 <p>导入地图</p>
@@ -304,7 +304,7 @@ const term = 17;
       const topClass = hasFileNameOffset ? 'top-(--file-name-offset)' : '-top-3';
 
       const copyButton = document.createElement('button');
-      copyButton.className = `copy-code absolute end-3 ${topClass} rounded bg-muted border border-muted px-2 py-1 text-xs leading-4 text-foreground font-medium`;
+      copyButton.className = `copy-code absolute end-3 ${topClass} rounded bg-muted border border-border px-2 py-1 text-xs leading-4 text-foreground font-medium`;
       copyButton.innerHTML = copyButtonLabel;
       codeBlock.setAttribute('tabindex', '0');
       codeBlock.appendChild(copyButton);
