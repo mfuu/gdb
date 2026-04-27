@@ -23,6 +23,7 @@ export default {
   dateFormat: 'MMM D, YYYY',
   dateDetailFormat: 'YYYY-MM-DD HH:mm:ss',
 
+  // https://giscus.app
   giscus: {
     enable: true,
     repo: 'mfuu/gdb',
@@ -33,7 +34,7 @@ export default {
     lang: 'zh-CN',
     loading: 'lazy',
     lightTheme: 'light',
-    darkTheme: 'dark',
+    darkTheme: 'dark_dimmed',
   },
 
   socials: [
