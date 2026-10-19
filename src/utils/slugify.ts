@@ -1,5 +1,14 @@
 import { slug as slugger } from 'github-slugger';
 
-export const slugifyStr = (str: string) => slugger(str);
+function slugify(str: string): string;
+function slugify(str: string[]): string[];
 
-export const slugifyAll = (arr: string[]) => arr.map(str => slugifyStr(str));
+function slugify(str: string | string[]) {
+  if (Array.isArray(str)) {
+    return str.map(str => slugger(str));
+  }
+
+  return slugger(str);
+}
+
+export default slugify;

@@ -1,11 +1,13 @@
 ---
-import config from '@/config';
+import type { HTMLAttributes } from 'astro/types';
+import giscusConfig from '@/giscus.config';
 
-export interface Props {
+type Props = {
   discussionNumber?: number;
-}
+} & HTMLAttributes<'div'>;
 
 const {
+  src,
   enable,
   repo,
   mapping,
@@ -16,17 +18,18 @@ const {
   loading,
   lightTheme,
   darkTheme,
-} = config.giscus;
+} = giscusConfig;
 
-const { discussionNumber } = Astro.props;
+const { discussionNumber, class: className, ...attrs } = Astro.props;
 ---
 
-{enable ? <div id="giscus-container" /> : null}
+{enable ? <div id="giscusContainer" class={className} {...attrs} /> : null}
 
 <script
   is:inline
   data-astro-rerun
   define:vars={{
+    src,
     enable,
     repo,
     mapping,
@@ -40,8 +43,8 @@ const { discussionNumber } = Astro.props;
     term: discussionNumber,
   }}
 >
-  function installGiscus() {
-    const container = document.getElementById('giscus-container');
+  (function () {
+    const container = document.getElementById('giscusContainer');
     if (!container) return;
 
     container.innerHTML = '';
@@ -53,7 +56,7 @@ const { discussionNumber } = Astro.props;
     const theme = currentTheme || browserTheme;
 
     const script = document.createElement('script');
-    script.src = 'https://giscus.app/client.js';
+    script.src = src;
     script.async = true;
     script.setAttribute('data-repo', repo);
     script.setAttribute('data-mapping', mapping);
@@ -67,7 +70,5 @@ const { discussionNumber } = Astro.props;
     script.setAttribute('crossorigin', 'anonymous');
 
     container.appendChild(script);
-  }
-
-  installGiscus();
+  })();
 </script>

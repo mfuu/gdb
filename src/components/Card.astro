@@ -1,40 +1,40 @@
 ---
-import { slugifyStr } from '@/utils/slugify';
-import type { CollectionEntry } from 'astro:content';
-import Datetime from './Datetime.astro';
-import getPath from '@/utils/getPath';
-import Excerpt from './Excerpt.astro';
-import Tag from './Tag.astro';
+import { render, type CollectionEntry } from 'astro:content';
 import IconPinned from '@/assets/icons/IconPinned.svg';
+import Datetime from './Datetime.astro';
+import Excerpt from './Excerpt.astro';
+import Tags from './Tags.astro';
+import getPath from '@/utils/getPath';
+import slugify from '@/utils/slugify';
 
-export interface Props extends CollectionEntry<'blog'> {
+type Props = {
   variant?: 'h2' | 'h3';
   excerpt?: boolean;
-}
+} & CollectionEntry<'posts'>;
 
-const { variant = 'h2', data, slug, excerpt = true, render } = Astro.props;
+const { variant: Heading = 'h2', id, data, excerpt = true } = Astro.props;
 
 const { title, tags, pinned, pubDatetime, modDatetime } = data;
 
-const headerProps = {
-  style: { viewTransitionName: slugifyStr(title) },
-  class: 'text-lg font-medium decoration-dashed hover:underline',
-};
+const slugifiedTags = tags.map(tag => ({ tag: slugify(tag), tagName: tag }));
 
-const { Content } = await render();
+const { Content } = await render(Astro.props);
 ---
 
 <li class="my-6">
   <a
-    href={getPath(`/posts/${slug}`)}
+    href={getPath(`/posts/${id}`)}
     class:list={[
       'text-accent inline-block text-lg font-medium',
       'decoration-dashed underline-offset-4 hover:underline',
       'focus-visible:no-underline focus-visible:underline-offset-0',
     ]}
   >
-    {variant === 'h2' ? <h2 {...headerProps}>{title}</h2> : <h3 {...headerProps}>{title}</h3>}
+    <Heading transition:name={slugify(title)}>
+      {title}
+    </Heading>
   </a>
+
   {
     excerpt && (
       <Excerpt>
@@ -42,11 +42,12 @@ const { Content } = await render();
       </Excerpt>
     )
   }
-  <div class="flex">
+
+  <div class="flex gap-4">
     <Datetime {pubDatetime} {modDatetime} />
-    <ul class="ml-2 opacity-80">
-      {tags.map(tag => <Tag size="sm" tag={slugifyStr(tag)} tagName={tag} />)}
-    </ul>
+
+    <Tags tags={slugifiedTags} size="sm" class="opacity-80" />
+
     {pinned && <IconPinned class="ml-auto w-4 opacity-80" />}
   </div>
 </li>

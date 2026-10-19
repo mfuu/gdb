@@ -1,42 +1,192 @@
 ---
 import { getCollection } from 'astro:content';
-import Layout from '@/layouts/Layout.astro';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
-import LinkButton from '@/components/LinkButton.astro';
-import Card from '@/components/Card.astro';
 import IconArrowRight from '@/assets/icons/IconArrowRight.svg';
-import config from '@/config';
+import IconHash from '@/assets/icons/IconHash.svg';
+import IconPinned from '@/assets/icons/IconPinned.svg';
+import IconRss from '@/assets/icons/IconRss.svg';
+import DefaultLayout from '@/layouts/DefaultLayout.astro';
+import Card from '@/components/Card.astro';
 import getPath from '@/utils/getPath';
+import slugify from '@/utils/slugify';
 import { getSortedPosts } from '@/utils/getPosts';
+import siteConfig, { socialLinks } from '@/site.config';
 
-const posts = await getCollection('blog');
-
+const posts = await getCollection('posts');
 const sortedPosts = getSortedPosts(posts);
+const pinnedPosts = sortedPosts.filter(({ data }) => data.pinned);
+const recentPosts = sortedPosts.filter(({ data }) => !data.pinned);
+
+// Extract popular tags with frequency counts
+const tagCounts = posts.reduce<Record<string, { tag: string; tagName: string; count: number }>>(
+  (acc, post) => {
+    post.data.tags.forEach(rawTag => {
+      const slug = slugify(rawTag);
+      if (!acc[slug]) {
+        acc[slug] = { tag: slug, tagName: rawTag, count: 0 };
+      }
+      acc[slug].count += 1;
+    });
+    return acc;
+  },
+  {}
+);
+
+const popularTags = Object.values(tagCounts)
+  .sort((a, b) => b.count - a.count)
+  .slice(0, 8);
+
+const allTagsCount = Object.keys(tagCounts).length;
 ---
 
-<Layout>
-  <Header />
-  <main id="main-content" data-layout="index" class="app-layout">
-    {
-      sortedPosts.length > 0 && (
-        <section id="recent-posts" class="pt-12 pb-6">
-          <h2 class="text-2xl font-semibold tracking-wide">Recent Posts</h2>
-          <ul>
-            {sortedPosts.map(
-              (data, index) => index < config.postPageSize && <Card variant="h3" {...data} />
-            )}
-          </ul>
-        </section>
-      )
-    }
+<DefaultLayout>
+  <!-- Hero -->
+  <section id="hero" class="pb-8 border-b border-border/80">
+    <h1 class="text-3xl font-bold tracking-tight sm:text-4xl text-foreground">
+      Hi, I'm <span class="text-accent">{siteConfig.author}</span>.
+    </h1>
 
-    <div class="my-8 text-center">
-      <LinkButton href={getPath('posts')}>
-        All Posts
-        <IconArrowRight class="inline-block rtl:-rotate-180" />
-      </LinkButton>
+    <p class="mt-3 text-base leading-relaxed text-muted-foreground sm:text-lg max-w-2xl">
+      {siteConfig.description}
+    </p>
+
+    <div class="mt-5 flex flex-wrap items-center gap-2.5">
+      {
+        socialLinks.map(social => (
+          <a
+            href={social.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border border-border bg-muted/20 hover:border-accent/40 hover:bg-muted/40 hover:text-accent transition-colors"
+            title={social.linkTitle}
+          >
+            <social.icon class="size-4 stroke-current fill-transparent stroke-2" />
+            <span>{social.name}</span>
+          </a>
+        ))
+      }
+
+      <a
+        href={getPath('rss.xml')}
+        class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border border-border bg-muted/20 hover:border-accent/40 hover:bg-muted/40 hover:text-accent transition-colors"
+        title="RSS Feed"
+      >
+        <IconRss class="size-3.5 stroke-current" />
+        <span>RSS</span>
+      </a>
+
+      <a
+        href={getPath('about')}
+        class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border border-border bg-muted/20 hover:border-accent/40 hover:bg-muted/40 hover:text-accent transition-colors"
+      >
+        <span>About</span>
+        <IconArrowRight class="size-3.5 rtl:-rotate-180" />
+      </a>
     </div>
-  </main>
-  <Footer />
-</Layout>
+  </section>
+
+  <!-- Pinned / Featured -->
+  {
+    pinnedPosts.length > 0 && (
+      <section id="pinned" class="py-8 border-b border-border/80">
+        <div class="mb-4 flex items-center gap-1.5 text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground">
+          <IconPinned class="size-3.5 text-accent" />
+          <span>Featured & Pinned</span>
+        </div>
+        <div class="grid gap-3 sm:grid-cols-2">
+          {pinnedPosts.map(post => (
+            <a
+              href={getPath(`/posts/${post.id}`)}
+              class="group relative flex flex-col justify-between rounded-xl border border-border bg-muted/15 p-4 transition-all hover:border-accent/40 hover:bg-muted/30"
+            >
+              <div>
+                <h3
+                  transition:name={slugify(post.data.title)}
+                  class="font-semibold text-foreground group-hover:text-accent transition-colors line-clamp-2"
+                >
+                  {post.data.title}
+                </h3>
+                {post.data.description && (
+                  <p class="mt-1.5 text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+                    {post.data.description}
+                  </p>
+                )}
+              </div>
+              <div class="mt-3 flex items-center justify-between text-xs text-muted-foreground">
+                <span class="font-mono text-[11px]">
+                  {post.data.tags
+                    .slice(0, 2)
+                    .map(t => `#${t}`)
+                    .join(' ')}
+                </span>
+                <span class="group-hover:translate-x-0.5 transition-transform text-accent font-medium">
+                  Read &rarr;
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <!-- Explore Topics / Tags -->
+  {
+    popularTags.length > 0 && (
+      <section id="topics" class="py-6 border-b border-border/80">
+        <div class="mb-3 flex items-center justify-between">
+          <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+            <IconHash class="size-3.5 opacity-70" />
+            <span>Popular Topics</span>
+          </h2>
+          <a
+            href={getPath('tags')}
+            class="text-xs text-muted-foreground hover:text-accent inline-flex items-center gap-1 transition-colors"
+          >
+            <span>All topics ({allTagsCount})</span>
+            <IconArrowRight class="size-3 rtl:-rotate-180" />
+          </a>
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+          {popularTags.map(({ tag, tagName, count }) => (
+            <a
+              href={getPath(`/tags/${tag}/`)}
+              class="inline-flex items-center gap-1 px-2.5 py-1 text-xs rounded-md border border-border bg-muted/15 hover:border-accent/40 hover:bg-muted/35 hover:text-accent transition-colors"
+            >
+              <span class="text-muted-foreground/70">#</span>
+              <span class="font-medium">{tagName}</span>
+              <span class="text-[10px] font-mono text-muted-foreground/80 ml-0.5">{count}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <!-- Recent Posts -->
+  {
+    recentPosts.length > 0 && (
+      <section id="recent-posts" class="pt-8 pb-4">
+        <div class="mb-3 flex items-center justify-between">
+          <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+            <IconHash class="size-3.5 opacity-70" />
+            <span>Recent Posts</span>
+          </h2>
+          <a
+            href={getPath('posts')}
+            class="text-xs text-muted-foreground hover:text-accent inline-flex items-center gap-1 transition-colors"
+          >
+            <span>All posts ({posts.length})</span>
+            <IconArrowRight class="size-3 rtl:-rotate-180" />
+          </a>
+        </div>
+
+        <ul>
+          {recentPosts.slice(0, siteConfig.postPageSize).map(data => (
+            <Card variant="h3" {...data} />
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</DefaultLayout>

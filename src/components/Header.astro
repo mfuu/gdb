@@ -1,11 +1,10 @@
 ---
 import IconX from '@/assets/icons/IconX.svg';
 import IconMoon from '@/assets/icons/IconMoon.svg';
-import IconSearch from '@/assets/icons/IconSearch.svg';
 import IconSunHigh from '@/assets/icons/IconSunHigh.svg';
 import IconMenuDeep from '@/assets/icons/IconMenuDeep.svg';
-import LinkButton from './LinkButton.astro';
-import config from '@/config';
+import Search from './Search.astro';
+import siteConfig from '@/site.config';
 import getPath from '@/utils/getPath';
 
 const { pathname } = Astro.url;
@@ -20,29 +19,39 @@ const isActive = (path: string) => {
 };
 ---
 
-<header class="app-layout flex flex-col items-center justify-between sm:flex-row">
+<header class="app-layout">
   <div
     id="top-nav-wrap"
-    class:list={[
-      'py-4 sm:py-6',
-      'border-border border-b',
-      'bg-background relative w-full',
-      'flex items-baseline justify-between sm:items-center',
-    ]}
+    class="border-border bg-background relative flex w-full flex-wrap items-center justify-between border-b py-4 sm:py-6"
   >
     <a
       href={getPath('/')}
-      class="absolute py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:static sm:my-auto sm:text-2xl sm:leading-none"
+      class="py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:my-auto sm:text-2xl sm:leading-none"
     >
-      {config.title}
+      {siteConfig.title}
     </a>
-    <nav
-      id="nav-menu"
-      class="flex w-full flex-col items-center sm:ms-2 sm:flex-row sm:justify-end sm:space-x-4 sm:py-0"
-    >
+
+    <div class="flex items-center gap-1 sm:order-3 sm:gap-5">
+      <Search />
+
+      <button
+        id="theme-btn"
+        class="focus-outline hover:[&>svg]:stroke-accent relative size-12 p-4 sm:size-8"
+        title="Toggles light & dark"
+        aria-label="auto"
+        aria-live="polite"
+      >
+        <IconMoon
+          class="absolute top-[50%] left-[50%] -translate-[50%] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"
+        />
+        <IconSunHigh
+          class="absolute top-[50%] left-[50%] -translate-[50%] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"
+        />
+      </button>
+
       <button
         id="menu-btn"
-        class="focus-outline self-end p-2 sm:hidden"
+        class="focus-outline hover:[&>svg]:stroke-accent flex size-12 items-center justify-center p-3 sm:hidden"
         aria-label="Open Menu"
         aria-expanded="false"
         aria-controls="menu-items"
@@ -50,63 +59,21 @@ const isActive = (path: string) => {
         <IconX id="close-icon" class="hidden" />
         <IconMenuDeep id="menu-icon" />
       </button>
+    </div>
+
+    <nav id="nav-menu" class="order-3 w-full sm:order-2 sm:flex sm:w-auto sm:ms-auto">
       <ul
         id="menu-items"
-        class:list={[
-          'mt-4 grid w-44 grid-cols-2 place-content-center gap-2',
-          '[&>li>a]:hover:text-accent [&>li>a]:block [&>li>a]:px-4 [&>li>a]:py-3 [&>li>a]:text-center [&>li>a]:font-medium sm:[&>li>a]:px-2 sm:[&>li>a]:py-1',
-          'hidden',
-          'sm:mt-0 sm:flex sm:w-auto sm:gap-x-5 sm:gap-y-0',
-        ]}
+        class="[&>li>a]:hover:text-accent mt-4 hidden w-44 mx-auto grid-cols-2 place-content-center gap-2 sm:mt-0 sm:flex sm:w-auto sm:gap-x-5 sm:gap-y-0 sm:[&>li]:h-8 [&>li>a]:block [&>li>a]:px-4 [&>li>a]:py-3 [&>li>a]:text-center [&>li>a]:font-medium sm:[&>li>a]:px-2 sm:[&>li>a]:py-1"
       >
-        <li class="col-span-2">
-          <a href={getPath('/posts')} class:list={{ 'active-nav': isActive('/posts') }}>Posts</a>
-        </li>
-        <li class="col-span-2">
-          <a href={getPath('/tags')} class:list={{ 'active-nav': isActive('/tags') }}>Tags</a>
-        </li>
         {
-          config.showArchives && (
+          siteConfig.navs.map(item => (
             <li class="col-span-2">
-              <a href={getPath('/archives')} class:list={{ 'active-nav': isActive('/archives') }}>
-                Archives
+              <a href={getPath(item.path)} class:list={{ 'active-nav': isActive(item.path) }}>
+                {item.label}
               </a>
             </li>
-          )
-        }
-        <li class="col-span-2">
-          <a href={getPath('/about')} class:list={{ 'active-nav': isActive('/about') }}> About </a>
-        </li>
-
-        <li class="col-span-1 flex items-center justify-center">
-          <LinkButton
-            href={getPath('/search')}
-            class:list={[
-              'focus-outline flex p-3 sm:p-1',
-              { '[&>svg]:stroke-accent': isActive('/search') },
-            ]}
-            aria-label="search"
-            title="Search"
-          >
-            <IconSearch />
-            <span class="sr-only">Search</span>
-          </LinkButton>
-        </li>
-        {
-          config.lightAndDarkMode && (
-            <li class="col-span-1 flex items-center justify-center">
-              <button
-                id="theme-btn"
-                class="focus-outline hover:[&>svg]:stroke-accent relative size-12 p-4 sm:size-8"
-                title="Toggles light & dark"
-                aria-label="auto"
-                aria-live="polite"
-              >
-                <IconMoon class="absolute top-[50%] left-[50%] -translate-[50%] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-                <IconSunHigh class="absolute top-[50%] left-[50%] -translate-[50%] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-              </button>
-            </li>
-          )
+          ))
         }
       </ul>
     </nav>
@@ -115,20 +82,24 @@ const isActive = (path: string) => {
 
 <script>
   function toggleNav() {
-    const menuBtn = document.querySelector('#menu-btn');
+    const menuBtn = document.querySelector<HTMLButtonElement>('#menu-btn');
     const menuItems = document.querySelector('#menu-items');
     const menuIcon = document.querySelector('#menu-icon');
     const closeIcon = document.querySelector('#close-icon');
 
     if (!menuBtn || !menuItems || !menuIcon || !closeIcon) return;
 
+    const openLabel = menuBtn.dataset.labelOpen ?? 'Open menu';
+    const closeLabel = menuBtn.dataset.labelClose ?? 'Close menu';
+
     menuBtn.addEventListener('click', () => {
       const openMenu = menuBtn.getAttribute('aria-expanded') === 'true';
 
       menuBtn.setAttribute('aria-expanded', openMenu ? 'false' : 'true');
-      menuBtn.setAttribute('aria-label', openMenu ? 'Open Menu' : 'Close Menu');
+      menuBtn.setAttribute('aria-label', openMenu ? openLabel : closeLabel);
 
       menuItems.classList.toggle('hidden');
+      menuItems.classList.toggle('grid');
       menuIcon.classList.toggle('hidden');
       closeIcon.classList.toggle('hidden');
     });

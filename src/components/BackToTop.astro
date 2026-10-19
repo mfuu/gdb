@@ -23,9 +23,7 @@ const { title, pubDatetime, modDatetime } = Astro.props;
       <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} size="xs" class="flex-wrap" />
     </div>
 
-    <a href="#top" class="hidden sm:block">
-      <span class="cursor text-xs hover:underline">Back to top</span>
-    </a>
+    <a href="#top" class="hidden sm:block text-xs hover:underline text-nowrap">Back to top</a>
   </div>
 </section>
 

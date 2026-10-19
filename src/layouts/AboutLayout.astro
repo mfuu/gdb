@@ -1,0 +1,29 @@
+---
+import DefaultLayout from './DefaultLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import Comment from '@/components/Comment.astro';
+import siteConfig from '@/site.config';
+
+export interface Props {
+  frontmatter: {
+    title: string;
+    description?: string;
+    discussionNumber?: number;
+  };
+}
+
+const { frontmatter } = Astro.props;
+---
+
+<DefaultLayout title={`${frontmatter.title} | ${siteConfig.title}`}>
+  <PageHeader pageTitle="About" />
+
+  <article
+    id="article"
+    class="app-prose max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg) mx-auto mt-8"
+  >
+    <slot />
+  </article>
+
+  <Comment discussionNumber={frontmatter.discussionNumber} class="mt-6" />
+</DefaultLayout>

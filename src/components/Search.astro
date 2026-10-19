@@ -1,0 +1,35 @@
+---
+import PagefindConfig from 'astro-pagefind/components/PagefindConfig.astro';
+import IconSearch from '@/assets/icons/IconSearch.svg';
+import siteConfig from '@/site.config';
+
+const baseUrl = `/${siteConfig.base}/`;
+---
+
+<PagefindConfig base-url={baseUrl} />
+
+<pagefind-modal class="pagefind-modal"></pagefind-modal>
+
+<button
+  id="search-btn"
+  class="focus-outline hover:[&>svg]:stroke-accent relative size-12 p-4 sm:size-8"
+  title="Search"
+  aria-label="Search"
+>
+  <IconSearch class="absolute top-[50%] left-[50%] -translate-[50%]" />
+</button>
+
+<script>
+  function openSearchModal() {
+    const modal = document.querySelector<any>('pagefind-modal');
+    if (modal && typeof modal.open === 'function') {
+      modal.open();
+    }
+  }
+
+  document.addEventListener('click', e => {
+    if ((e.target as HTMLElement)?.closest('#search-btn')) {
+      openSearchModal();
+    }
+  });
+</script>

@@ -1,25 +1,34 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
-import Socials from './Socials.astro';
+import IconRss from '@/assets/icons/IconRss.svg';
+import getPath from '@/utils/getPath';
+import SocialLinks from './SocialLinks.astro';
+import LinkButton from './LinkButton.astro';
+
+type Props = {} & HTMLAttributes<'footer'>;
+
+const { class: className, ...attrs } = Astro.props;
 
 const currentYear = new Date().getFullYear();
-
-type Props = {
-  noMarginTop?: boolean;
-} & HTMLAttributes<'footer'>;
-
-const { noMarginTop = false, class: className, ...attrs } = Astro.props;
 ---
 
-<footer class:list={['app-layout', { 'mt-auto': !noMarginTop }, className]} {...attrs}>
+<footer class:list={['app-layout mt-auto', className]} {...attrs}>
   <div
-    class:list={[
-      'py-6 sm:py-4',
-      'border-border border-t',
-      'flex flex-col items-center justify-between sm:flex-row-reverse',
-    ]}
+    class="border-border flex flex-col items-center justify-between border-t py-6 sm:flex-row-reverse sm:py-4"
   >
-    <Socials />
+    <div class="flex items-center gap-2">
+      <SocialLinks />
+
+      <LinkButton
+        href={getPath('rss.xml')}
+        class="focus-outline hover:text-accent p-1 transition-colors"
+        aria-label="RSS Feed"
+        title="RSS Feed"
+      >
+        <IconRss class="size-5 stroke-current" />
+      </LinkButton>
+    </div>
+
     <div class="my-2 flex flex-col items-center whitespace-nowrap sm:flex-row">
       <span>Copyright &#169; {currentYear}</span>
       <span class="hidden sm:inline">&nbsp;|&nbsp;</span>

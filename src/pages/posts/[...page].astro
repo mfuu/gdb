@@ -1,33 +1,28 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
-import Main from '@/layouts/Main.astro';
-import Layout from '@/layouts/Layout.astro';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
+import DefaultLayout from '@/layouts/DefaultLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
 import Card from '@/components/Card.astro';
 import Pagination from '@/components/Pagination.astro';
-import config from '@/config';
 import { getSortedPosts } from '@/utils/getPosts';
+import siteConfig from '@/site.config';
 
 export const getStaticPaths = (async ({ paginate }) => {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
 
-  return paginate(getSortedPosts(posts), { pageSize: config.postPageSize });
+  return paginate(getSortedPosts(posts), { pageSize: siteConfig.postPageSize });
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
 ---
 
-<Layout title={`Posts | ${config.title}`}>
-  <Header />
-  <Main pageTitle="Posts" pageDesc="All the articles I've posted.">
-    <ul>
-      {page.data.map(data => <Card {...data} />)}
-    </ul>
-  </Main>
+<DefaultLayout title={`Posts | ${siteConfig.title}`}>
+  <PageHeader pageTitle="Posts" pageDesc="All the articles I've posted." />
+
+  <ul>
+    {page.data.map(data => <Card {...data} />)}
+  </ul>
 
   <Pagination {page} />
-
-  <Footer noMarginTop={page.lastPage > 1} />
-</Layout>
+</DefaultLayout>

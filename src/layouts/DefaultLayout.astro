@@ -1,0 +1,94 @@
+---
+import { Font } from 'astro:assets';
+import { ClientRouter } from 'astro:transitions';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import getPath from '@/utils/getPath';
+import siteConfig from '@/site.config';
+import '@/styles/global.css';
+
+export interface Props {
+  title?: string;
+  author?: string;
+  description?: string;
+  canonicalURL?: string;
+  scrollSmooth?: boolean;
+  discussionNumber?: number;
+}
+
+const {
+  title = siteConfig.title,
+  author = siteConfig.author,
+  description = siteConfig.description,
+  canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
+  scrollSmooth = false,
+} = Astro.props;
+---
+
+<!doctype html>
+<html
+  dir={siteConfig.dir}
+  lang=`${siteConfig.lang ?? "en"}`
+  class={`${scrollSmooth && 'scroll-smooth'}`}
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href={getPath('favicon.svg')} />
+    <link rel="icon" href={getPath('favicon.svg')} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Load Font -->
+    <Font
+      cssVariable="--font-google-sans-code"
+      preload={[{ subset: 'latin', weight: 400, style: 'normal' }]}
+    />
+
+    <!-- General Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta name="author" content={author} />
+    <link rel="sitemap" href={getPath('sitemap-index.xml')} />
+
+    <!-- Enable RSS feed auto-discovery  -->
+    <!-- https://docs.astro.build/en/recipes/rss/#enabling-rss-feed-auto-discovery -->
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={siteConfig.title}
+      href={new URL('rss.xml', Astro.site)}
+    />
+
+    <meta name="theme-color" content="" />
+
+    <!-- Minimal inline script to prevent FOUC - sets theme immediately -->
+    <script is:inline>
+      (function () {
+        const stored = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = stored ?? (prefersDark ? 'dark' : 'light');
+        const root = document.firstElementChild;
+        root?.setAttribute('data-theme', theme);
+        root?.classList.toggle('dark', theme === 'dark');
+        // Expose value so theme.ts can skip re-detection.
+        window.__theme = { value: theme };
+      })();
+    </script>
+
+    <!-- Enable Astro View Transitions for all browsers -->
+    <ClientRouter />
+  </head>
+  <body>
+    <Header />
+
+    <main id="main-content" class="app-layout pt-8 pb-4">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <script is:inline src={getPath('toggle-theme.js')}></script>
+  </body>
+</html>

@@ -10,9 +10,9 @@ const CATEGORIES = {
   about: 'About',
 };
 
-const BLOG_PATH = 'src/content/blog';
-const ABOUT_FILE_PATH = 'src/pages/about.md';
-const ABOUT_LAYOUT_FILE_PATH = 'src/layouts/About.astro';
+const POSTS_PATH = 'src/content/posts';
+const ABOUT_PAGE_FILE_PATH = 'src/pages/about.md';
+const ABOUT_LAYOUT_FILE_PATH = 'src/layouts/AboutLayout.astro';
 
 // npm run fetch --repository "${{github.repository}}"
 const repository = process.argv.slice(2)[0] || '';
@@ -42,9 +42,45 @@ async function fetchData(query) {
   return res;
 }
 
+function getExcerpt(content, maxLength = 160) {
+  if (!content) return '';
+  const clean = content
+    // remove code blocks
+    .replace(/```[\s\S]*?```/g, '')
+    // remove inline code
+    .replace(/`([^`]+)`/g, '$1')
+    // remove images
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+    // replace links with link text
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    // remove html tags
+    .replace(/<[^>]*>/g, '')
+    // remove html entities
+    .replace(/&(?:[a-z\d]+|#\d+|#x[a-f\d]+);/gi, ' ')
+    // remove headings markers
+    .replace(/^#{1,6}\s+/gm, '')
+    // remove blockquotes
+    .replace(/^>\s+/gm, '')
+    // remove list markers
+    .replace(/^[\s*+-]+(?:\d+\.)?\s+/gm, '')
+    // remove table pipe borders and separators
+    .replace(/\|/g, ' ')
+    .replace(/[-:]{3,}/g, ' ')
+    // remove bold/italic/strikethrough markers
+    .replace(/[*_~]/g, '')
+    // collapse whitespaces and newlines
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  if (clean.length <= maxLength) return clean;
+  return clean.slice(0, maxLength).trim() + '...';
+}
+
 function formatMarkdownBody(discussion, pinnedNumbers, frontmatterExtends = {}) {
   // Extract frontmatter data from discussion Markdown
   const { content: body, data: frontmatter } = matter(discussion.body);
+
+  const excerpt = getExcerpt(body);
 
   // Construct post data object
   Object.assign(frontmatter, {
@@ -53,7 +89,7 @@ function formatMarkdownBody(discussion, pinnedNumbers, frontmatterExtends = {}) 
     modDatetime: discussion.updatedAt,
     tags: discussion.labels.nodes.map(label => label.name) || ['other'],
     pinned: pinnedNumbers.includes(discussion.number),
-    description: discussion.title,
+    description: frontmatter.description || excerpt || discussion.title,
     discussionNumber: discussion.number,
     ...frontmatterExtends,
   });
@@ -67,6 +103,8 @@ function formatMarkdownBody(discussion, pinnedNumbers, frontmatterExtends = {}) 
       for (let v of value) {
         markdown.push(`  - ${v}`);
       }
+    } else if (key === 'description') {
+      markdown.push(`${key}: ${JSON.stringify(value)}`);
     } else {
       markdown.push(`${key}: ${value}`);
     }
@@ -139,7 +177,7 @@ async function writeDiscussion() {
       const markdown = formatMarkdownBody(discussion, pinnedNumbers, {
         layout: ABOUT_LAYOUT_FILE_PATH,
       });
-      fs.writeFileSync(ABOUT_FILE_PATH, markdown);
+      fs.writeFileSync(ABOUT_PAGE_FILE_PATH, markdown);
       return;
     }
 
@@ -152,8 +190,8 @@ async function writeDiscussion() {
     const slug = (discussion.title.match(/[a-zA-Z0-9\u4e00-\u9fa5_-]/g) || []).join('');
     const filename = `${slug ?? discussion.number}.md`;
 
-    // Save new formatted Markdown to a file under "src/content/blog"
-    const dist = path.join(process.cwd(), BLOG_PATH);
+    // Save new formatted Markdown to a file under POSTS_PATH
+    const dist = path.join(process.cwd(), POSTS_PATH);
 
     if (!fs.existsSync(dist)) {
       fs.mkdirSync(dist);

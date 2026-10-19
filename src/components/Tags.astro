@@ -1,0 +1,40 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import IconHash from '@/assets/icons/IconHash.svg';
+import getPath from '@/utils/getPath';
+
+type Props = {
+  tags: { tag: string; tagName: string }[];
+  size?: 'sm' | 'lg';
+} & HTMLAttributes<'ul'>;
+
+const { tags, size = 'sm', class: className, ...attrs } = Astro.props;
+---
+
+<ul class:list={['flex items-center flex-wrap gap-3', className]} {...attrs}>
+  {
+    tags.map(({ tag, tagName }) => (
+      <li
+        class:list={[
+          'group inline-block group-hover:cursor-pointer',
+          { 'underline-offset-8': size === 'lg' },
+          { 'underline-offset-4': size === 'sm' },
+        ]}
+      >
+        <a
+          href={getPath(`/tags/${tag}/`)}
+          class:list={[
+            'flex items-center gap-0.5 group-hover:text-accent relative underline decoration-dashed group-hover:-top-0.5 focus-visible:p-1 focus-visible:no-underline',
+            { 'text-sm': size === 'sm' },
+            { 'text-lg': size === 'lg' },
+          ]}
+        >
+          <IconHash
+            class:list={['opacity-80', { 'size-5': size === 'lg' }, { 'size-4': size === 'sm' }]}
+          />
+          {tagName}
+        </a>
+      </li>
+    ))
+  }
+</ul>

@@ -1,7 +1,7 @@
 import type { CollectionEntry } from 'astro:content';
-import { slugifyAll } from './slugify';
+import slugify from './slugify';
 
-export function getSortedPosts(posts: CollectionEntry<'blog'>[]) {
+export function getSortedPosts(posts: CollectionEntry<'posts'>[]) {
   const sortedPosts = posts.sort(
     (a, b) =>
       Math.floor(new Date(b.data.modDatetime ?? b.data.pubDatetime).getTime() / 1000) -
@@ -12,6 +12,6 @@ export function getSortedPosts(posts: CollectionEntry<'blog'>[]) {
   return [...pinnedPosts, ...recentPosts];
 }
 
-export function getPostsByTag(posts: CollectionEntry<'blog'>[], tag: string) {
-  return getSortedPosts(posts.filter(post => slugifyAll(post.data.tags).includes(tag)));
+export function getPostsByTag(posts: CollectionEntry<'posts'>[], tag: string) {
+  return getSortedPosts(posts.filter(post => slugify(post.data.tags).includes(tag)));
 }

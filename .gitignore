@@ -1,7 +1,7 @@
 # build output
 dist/
 .output/
-src/*/blog/
+src/*/posts/*.md*
 
 # dependencies
 node_modules/
@@ -12,6 +12,8 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# ignore VS Code files
+.vscode/
 
 # environment variables
 .env

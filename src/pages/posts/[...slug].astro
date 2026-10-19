@@ -1,31 +1,38 @@
 ---
-import { render, type CollectionEntry } from 'astro:content';
-import Layout from '@/layouts/Layout.astro';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
-import Tag from '@/components/Tag.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import IconChevronLeft from '@/assets/icons/IconChevronLeft.svg';
+import IconChevronRight from '@/assets/icons/IconChevronRight.svg';
+import DefaultLayout from '@/layouts/DefaultLayout.astro';
+import Tags from '@/components/Tags.astro';
 import Datetime from '@/components/Datetime.astro';
 import ShareLinks from '@/components/ShareLinks.astro';
 import Comment from '@/components/Comment.astro';
 import BackToTop from '@/components/BackToTop.astro';
 import getPath from '@/utils/getPath';
-import { slugifyStr } from '@/utils/slugify';
-import IconChevronLeft from '@/assets/icons/IconChevronLeft.svg';
-import IconChevronRight from '@/assets/icons/IconChevronRight.svg';
-import config from '@/config';
+import slugify from '@/utils/slugify';
+import { getSortedPosts } from '@/utils/getPosts';
+import siteConfig from '@/site.config';
 
 export interface Props {
-  post: CollectionEntry<'blog'>;
-  posts: CollectionEntry<'blog'>[];
+  post: CollectionEntry<'posts'>;
 }
 
-const { post, posts } = Astro.props;
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
+  const postResult = posts.map(post => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+
+  return postResult;
+}
+
+const { post } = Astro.props;
 
 const {
   title,
   author,
   description,
-  ogImage: initOgImage,
   canonicalURL,
   pubDatetime,
   modDatetime,
@@ -33,27 +40,10 @@ const {
   discussionNumber,
 } = post.data;
 
-const { Content } = await render(post);
-
-let ogImage: string | undefined;
-
-// Determine OG image source
-if (typeof initOgImage === 'string') {
-  ogImage = initOgImage; // Remote OG image (absolute URL)
-} else if (initOgImage?.src) {
-  ogImage = initOgImage.src; // Local asset
-}
-
-// Use dynamic OG image if enabled and no remote|local ogImage
-if (!ogImage && config.dynamicOgImage) {
-  ogImage = getPath(`/posts/${post.slug}/index.png`);
-}
-
 const layoutProps = {
-  title: `${title} | ${config.title}`,
+  title: `${title} | ${siteConfig.title}`,
   author,
   description,
-  ogImage,
   pubDatetime,
   modDatetime,
   canonicalURL,
@@ -61,32 +51,40 @@ const layoutProps = {
   discussionNumber,
 };
 
+const slugifiedTags = tags.map(tag => ({ tag: slugify(tag), tagName: tag }));
+
+const { Content } = await render(post);
+
 /* ========== Prev/Next Posts ========== */
 
-const allPosts = posts.map(({ data: { title }, slug }) => ({
-  slug,
+const posts = await getCollection('posts');
+const sortedPosts = getSortedPosts(posts);
+const allPosts = sortedPosts.map(({ data: { title }, id }) => ({
+  id,
   title,
 }));
 
-const currentPostIndex = allPosts.findIndex(a => a.slug === post.slug);
+const currentPostIndex = allPosts.findIndex(a => a.id === post.id);
 
 const prevPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
 const nextPost = currentPostIndex !== allPosts.length ? allPosts[currentPostIndex + 1] : null;
 ---
 
-<Layout {...layoutProps}>
-  <Header />
+<DefaultLayout {...layoutProps}>
   <BackToTop title={title} pubDatetime={pubDatetime} modDatetime={modDatetime} />
-  <main id="main-content" class="app-layout mt-8 pb-12" data-pagefind-body>
+
+  <div data-pagefind-body>
     <h1
-      transition:name={slugifyStr(title)}
+      transition:name={slugify(title)}
       class="text-accent inline-block text-2xl font-bold sm:text-3xl"
     >
       {title}
     </h1>
+
     <div class="my-2 flex items-center gap-2">
       <Datetime {pubDatetime} {modDatetime} size="lg" />
     </div>
+
     <article
       id="article"
       class="app-prose max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg) mt-8 w-full"
@@ -96,9 +94,7 @@ const nextPost = currentPostIndex !== allPosts.length ? allPosts[currentPostInde
 
     <hr class="my-8 border-dashed" />
 
-    <ul class="mt-4 mb-8 sm:my-8">
-      {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} />)}
-    </ul>
+    <Tags tags={slugifiedTags} class="mt-4 mb-8" />
 
     <ShareLinks />
 
@@ -108,7 +104,7 @@ const nextPost = currentPostIndex !== allPosts.length ? allPosts[currentPostInde
     <div data-pagefind-ignore class="grid grid-cols-1 gap-6 sm:grid-cols-2">
       {
         prevPost && (
-          <a href={getPath(`/posts/${prevPost.slug}`)} class="flex w-full gap-1 hover:opacity-75">
+          <a href={getPath(`/posts/${prevPost.id}`)} class="flex w-full gap-1 hover:opacity-75">
             <IconChevronLeft class="inline-block flex-none rtl:rotate-180" />
             <div>
               <span>Previous Post</span>
@@ -120,7 +116,7 @@ const nextPost = currentPostIndex !== allPosts.length ? allPosts[currentPostInde
       {
         nextPost && (
           <a
-            href={getPath(`/posts/${nextPost.slug}`)}
+            href={getPath(`/posts/${nextPost.id}`)}
             class="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"
           >
             <div>
@@ -133,34 +129,24 @@ const nextPost = currentPostIndex !== allPosts.length ? allPosts[currentPostInde
       }
     </div>
 
-    <Comment discussionNumber={post.data.discussionNumber} />
-  </main>
-  <Footer />
-</Layout>
+    <Comment discussionNumber={post.data.discussionNumber} class="mt-6" />
+  </div>
+</DefaultLayout>
 
 <script is:inline data-astro-rerun>
-  // /** Create a progress indicator
-  //  *  at the top */
   function createProgressBar() {
-    // Create the main container div
     const progressContainer = document.createElement('div');
     progressContainer.className = 'progress-container fixed top-0 z-10 h-1 w-full bg-background';
 
-    // Create the progress bar div
     const progressBar = document.createElement('div');
     progressBar.className = 'progress-bar h-1 w-0 bg-accent';
     progressBar.id = 'myBar';
 
-    // Append the progress bar to the progress container
     progressContainer.appendChild(progressBar);
-
-    // Append the progress container to the document body or any other desired parent element
     document.body.appendChild(progressContainer);
   }
   createProgressBar();
 
-  /** Update the progress bar
-   *  when user scrolls */
   function updateScrollProgress() {
     document.addEventListener('scroll', () => {
       const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
@@ -176,8 +162,6 @@ const nextPost = currentPostIndex !== allPosts.length ? allPosts[currentPostInde
   }
   updateScrollProgress();
 
-  /** Attaches links to headings in the document,
-   *  allowing sharing of sections easily */
   function addHeadingLinks() {
     const headings = Array.from(document.querySelectorAll('h2, h3, h4, h5, h6'));
     for (const heading of headings) {
@@ -196,8 +180,6 @@ const nextPost = currentPostIndex !== allPosts.length ? allPosts[currentPostInde
   }
   addHeadingLinks();
 
-  /** Attaches copy buttons to code blocks in the document,
-   * allowing users to copy code easily. */
   function attachCopyButtons() {
     const copyButtonLabel = 'Copy';
     const codeBlocks = Array.from(document.querySelectorAll('pre'));
@@ -206,20 +188,17 @@ const nextPost = currentPostIndex !== allPosts.length ? allPosts[currentPostInde
       const wrapper = document.createElement('div');
       wrapper.style.position = 'relative';
 
-      // Check if --file-name-offset custom property exists
       const computedStyle = getComputedStyle(codeBlock);
       const hasFileNameOffset = computedStyle.getPropertyValue('--file-name-offset').trim() !== '';
 
-      // Determine the top positioning class
       const topClass = hasFileNameOffset ? 'top-(--file-name-offset)' : '-top-3';
 
       const copyButton = document.createElement('button');
-      copyButton.className = `copy-code absolute end-3 ${topClass} rounded bg-muted border border-border px-2 py-1 text-xs leading-4 text-foreground font-medium`;
+      copyButton.className = `copy-code absolute end-3 ${topClass} rounded bg-muted border border-muted px-2 py-1 text-xs leading-4 text-foreground font-medium`;
       copyButton.innerHTML = copyButtonLabel;
       codeBlock.setAttribute('tabindex', '0');
       codeBlock.appendChild(copyButton);
 
-      // wrap codebock with relative parent element
       codeBlock?.parentNode?.insertBefore(wrapper, codeBlock);
       wrapper.appendChild(codeBlock);
 
@@ -234,7 +213,6 @@ const nextPost = currentPostIndex !== allPosts.length ? allPosts[currentPostInde
 
       await navigator.clipboard.writeText(text ?? '');
 
-      // visual feedback that task is completed
       button.innerText = 'Copied';
 
       setTimeout(() => {
@@ -244,7 +222,6 @@ const nextPost = currentPostIndex !== allPosts.length ? allPosts[currentPostInde
   }
   attachCopyButtons();
 
-  /* Go to page start after page swap */
   document.addEventListener('astro:after-swap', () =>
     window.scrollTo({ left: 0, top: 0, behavior: 'instant' })
   );

@@ -1,0 +1,30 @@
+.pagefind-modal {
+  scrollbar-color: var(--color-muted) transparent;
+}
+
+html[data-theme='dark'] {
+  --pf-text: var(--foreground);
+  --pf-text-secondary: var(--muted-foreground);
+  --pf-text-muted: var(--muted-foreground);
+  --pf-background: var(--background);
+  --pf-border: var(--border);
+  --pf-border-focus: var(--accent);
+  --pf-skeleton: var(--muted);
+  --pf-skeleton-shine: var(--border);
+  --pf-hover: var(--muted);
+  --pf-mark: var(--foreground);
+  --pf-scroll-shadow: rgba(255, 255, 255, 0.05);
+
+  --pf-outline-focus: var(--accent);
+
+  --pf-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --pf-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --pf-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
+
+  --pf-error-bg: #2a1a1a;
+  --pf-error-border: #5c2828;
+  --pf-error-text: #f87171;
+  --pf-error-text-secondary: #ef4444;
+
+  --pf-modal-backdrop: rgba(0, 0, 0, 0.6);
+}

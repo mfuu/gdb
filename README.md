@@ -1,22 +1,14 @@
 # gdb
 
-![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white) ![mdx](https://img.shields.io/badge/mdx-yellow?style=for-the-badge&logo=MDX&logoColor=white) ![giscus](https://img.shields.io/badge/giscus-%2319c37d?style=for-the-badge&logo=giscus&logoColor=white)
-
-## What is gdb
-
 gdb(github discussion blog), host blog content on GitHub, using GitHub Discussions as CMS for our Markdown content and then eventually using GitHub API to retrieve the content.
 
 ## GitHub Discussion
 
 ### Setup
 
-- Enabled discussion feature in my repository.
-- Deleted all default labels.
+- Enabled discussion feature in your repository.
 - Deleted all default categories and sections.
-- Created new section named “Articles”.
-- Created new category with type “Announcement”, named “Release” respective to release posts.
-
-> You can adjust the section and categories yourself.
+- Created new category with type "Announcement", named "Release" respective to release posts.
 
 ### Script
 
@@ -36,33 +28,31 @@ npm run fetch --repository "${{github.repository}}" # for example: npm run fetch
 
 ## Config
 
-Change your website config in `src/config.ts`
+Change your website config in `src/site.config.ts`
 
 ```ts
-export default {
+const config = {
   site: '', // your website url
   base: '', // your website base path
   author: '',
   description: '', // your website description
   title: '', // your website title
-  ogImage: 'og.png', // your website og image
-  lightAndDarkMode: true, // enable light and dark mode
-  showArchives: true, // show archives page
-  postPageSize: 4, // post per page size
-  dynamicOgImage: true,
+  postPageSize: 5, // post per page size
   dir: 'ltr', // "rtl" | "auto"
   lang: 'en', // html lang code. Set this empty and default will be "en"
   timezone: 'Asia/Shanghai', // Default global timezone (IANA format) https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
-  socials: [], // social links
-
-  shareLinks: [], // post share links
+  navs: [], // navigation links
 };
+
+const socials = []; // social links
+
+const shareLinks = []; // post share links
 ```
 
 ## Giscus
 
-By default, giscus is enabled. If necessary, please modify the `src/config` configuration yourself.
+By default, giscus is enabled. If necessary, please modify the `src/giscus.config.ts` configuration yourself.
 
 ```ts
 giscus: {
@@ -81,9 +71,9 @@ giscus: {
 
 Please ensure that your repo has [installed](https://github.com/apps/giscus) the [Giscus](https://giscus.app/) App.
 
-## Deploy
+## Generate Blog
 
-Automatic synchronization with Gitubb Wokflow, detail in `.github/workflows/deploy.yml`. If you have adjusted the category name of the Discussion, please modify the env variable too.
+Automatic synchronization with GitHub Workflow, detail in `.github/workflows/generate-blog.yml`.
 
 ## Others
 
