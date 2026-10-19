@@ -1,33 +1,17 @@
-<!DOCTYPE html><html dir="ltr" lang="en" class="scroll-smooth"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/gdb/favicon.svg"><link rel="canonical" href="https://mfuu.github.io/gdb/posts/buildingcarlainwindowswithue4/"><meta name="generator" content="Astro v5.18.2"><!-- Load Font --><style>@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/gdb/assets/fonts/eac50eb620c54c10.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:300;font-style:italic;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/gdb/assets/fonts/eac50eb620c54c10.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:400;font-style:italic;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/gdb/assets/fonts/eac50eb620c54c10.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:500;font-style:italic;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/gdb/assets/fonts/eac50eb620c54c10.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:600;font-style:italic;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/gdb/assets/fonts/eac50eb620c54c10.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:700;font-style:italic;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/gdb/assets/fonts/408661687ee6f3ed.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:300;font-style:normal;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/gdb/assets/fonts/408661687ee6f3ed.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:400;font-style:normal;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/gdb/assets/fonts/408661687ee6f3ed.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:500;font-style:normal;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/gdb/assets/fonts/408661687ee6f3ed.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:600;font-style:normal;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/gdb/assets/fonts/408661687ee6f3ed.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:700;font-style:normal;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:300;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:400;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:500;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:600;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:700;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:300;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:400;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:500;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:600;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:700;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}:root{--font-google-sans-code:"Google Sans Code-de078a87b11e4a86","Google Sans Code-de078a87b11e4a86 fallback: Courier New",monospace;}</style><link rel="preload" href="/gdb/assets/fonts/eac50eb620c54c10.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/gdb/assets/fonts/408661687ee6f3ed.woff2" as="font" type="font/woff2" crossorigin><!-- General Meta Tags --><title>Building CARLA in Windows with UE4 | GDB</title><meta name="title" content="Building CARLA in Windows with UE4 | GDB"><meta name="description" content="Building CARLA in Windows with UE4"><meta name="author" content="mfuu"><link rel="sitemap" href="/gdb/sitemap-index.xml"><!-- Open Graph / Facebook --><meta property="og:title" content="Building CARLA in Windows with UE4 | GDB"><meta property="og:description" content="Building CARLA in Windows with UE4"><meta property="og:url" content="https://mfuu.github.io/gdb/posts/buildingcarlainwindowswithue4/"><meta property="og:image" content="https://mfuu.github.io//gdb/gdb/posts/buildingcarlainwindowswithue4/index.png"><!-- Article Published/Modified time --><meta property="article:published_time" content="2026-04-14T05:56:25.000Z"><meta property="article:modified_time" content="2026-04-28T09:02:53.000Z"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://mfuu.github.io/gdb/posts/buildingcarlainwindowswithue4/"><meta property="twitter:title" content="Building CARLA in Windows with UE4 | GDB"><meta property="twitter:description" content="Building CARLA in Windows with UE4"><meta property="twitter:image" content="https://mfuu.github.io//gdb/gdb/posts/buildingcarlainwindowswithue4/index.png"><!-- Enable RSS feed auto-discovery  --><!-- https://docs.astro.build/en/recipes/rss/#enabling-rss-feed-auto-discovery --><link rel="alternate" type="application/rss+xml" title="GDB" href="https://mfuu.github.io/rss.xml"><meta name="theme-color" content=""><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/gdb/assets/ClientRouter.astro_astro_type_script_index_0_lang.CDGfc0hd.js"></script><!-- Minimal inline script to prevent FOUC - sets theme immediately --><script>
+<!DOCTYPE html><html dir="ltr" lang="en" class="scroll-smooth"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/gdb/favicon.svg"><link rel="icon" href="/gdb/favicon.svg"><link rel="canonical" href="https://mfuu.github.io/gdb/posts/buildingcarlainwindowswithue4/"><meta name="generator" content="Astro v7.3.8"><!-- Load Font --><style>@font-face{font-family:"Google Sans Code-1a30c214885cb404";src:url("/gdb/assets/fonts/2213c1e7fbe06cc7.woff") format("woff"), url("/gdb/assets/fonts/b87f789471b4c602.ttf") format("truetype");font-display:swap;font-weight:300;font-style:italic;}@font-face{font-family:"Google Sans Code-1a30c214885cb404";src:url("/gdb/assets/fonts/c487dbd9c215141e.woff") format("woff"), url("/gdb/assets/fonts/bb0c016d60298234.ttf") format("truetype");font-display:swap;font-weight:400;font-style:italic;}@font-face{font-family:"Google Sans Code-1a30c214885cb404";src:url("/gdb/assets/fonts/0976c79a1e97c08d.woff") format("woff"), url("/gdb/assets/fonts/b3e69a4f03324880.ttf") format("truetype");font-display:swap;font-weight:500;font-style:italic;}@font-face{font-family:"Google Sans Code-1a30c214885cb404";src:url("/gdb/assets/fonts/3c46d5a1dde2929d.woff") format("woff"), url("/gdb/assets/fonts/0ff1dfaf1dff21d0.ttf") format("truetype");font-display:swap;font-weight:600;font-style:italic;}@font-face{font-family:"Google Sans Code-1a30c214885cb404";src:url("/gdb/assets/fonts/e9aa617e80052f4b.woff") format("woff"), url("/gdb/assets/fonts/d9a5ad8b8018e5de.ttf") format("truetype");font-display:swap;font-weight:700;font-style:italic;}@font-face{font-family:"Google Sans Code-1a30c214885cb404";src:url("/gdb/assets/fonts/5056f1a50e5e7744.woff") format("woff"), url("/gdb/assets/fonts/3e4dac0d0220e48a.ttf") format("truetype");font-display:swap;font-weight:300;font-style:normal;}@font-face{font-family:"Google Sans Code-1a30c214885cb404";src:url("/gdb/assets/fonts/e734307f8c328338.woff") format("woff"), url("/gdb/assets/fonts/ba3036786bf88603.ttf") format("truetype");font-display:swap;font-weight:400;font-style:normal;}@font-face{font-family:"Google Sans Code-1a30c214885cb404";src:url("/gdb/assets/fonts/dfa89044152f7da4.woff") format("woff"), url("/gdb/assets/fonts/39aec4e7fc7cc077.ttf") format("truetype");font-display:swap;font-weight:500;font-style:normal;}@font-face{font-family:"Google Sans Code-1a30c214885cb404";src:url("/gdb/assets/fonts/8bbd58b325585200.woff") format("woff"), url("/gdb/assets/fonts/b33609507afd910d.ttf") format("truetype");font-display:swap;font-weight:600;font-style:normal;}@font-face{font-family:"Google Sans Code-1a30c214885cb404";src:url("/gdb/assets/fonts/035035a9ddbd14aa.woff") format("woff"), url("/gdb/assets/fonts/50fcf54bf575f53f.ttf") format("truetype");font-display:swap;font-weight:700;font-style:normal;}@font-face{font-family:"Google Sans Code-1a30c214885cb404 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:300;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-1a30c214885cb404 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:400;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-1a30c214885cb404 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:500;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-1a30c214885cb404 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:600;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-1a30c214885cb404 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:700;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-1a30c214885cb404 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:300;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-1a30c214885cb404 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:400;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-1a30c214885cb404 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:500;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-1a30c214885cb404 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:600;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-1a30c214885cb404 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:700;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}:root{--font-google-sans-code:"Google Sans Code-1a30c214885cb404","Google Sans Code-1a30c214885cb404 fallback: Courier New",monospace;}</style><!-- General Meta Tags --><title>Building CARLA in Windows with UE4 | GDB</title><meta name="title" content="Building CARLA in Windows with UE4 | GDB"><meta name="description" content="构建流程 获取访问权限 将 GitHub 账号关联到Epic Games，并接受来自Epic组织的邀请。 下载 Carla 专用 UE4 引擎 执行 Setup.bat 执行 GenerateProjectFiles.bat 注意： 必须要先进行第一步，否则无权限访问该仓库 必须要使用 Carla 专用的引擎版本，否则..."><meta name="author" content="mfuu"><link rel="sitemap" href="/gdb/sitemap-index.xml"><!-- Enable RSS feed auto-discovery  --><!-- https://docs.astro.build/en/recipes/rss/#enabling-rss-feed-auto-discovery --><link rel="alternate" type="application/rss+xml" title="GDB" href="https://mfuu.github.io/rss.xml"><meta name="theme-color" content=""><!-- Minimal inline script to prevent FOUC - sets theme immediately --><script>
       (function () {
-        const initialColorScheme = ''; // "light" | "dark"
-        const currentTheme = localStorage.getItem('theme');
-
-        function getPreferTheme() {
-          if (currentTheme) return currentTheme;
-          if (initialColorScheme) return initialColorScheme;
-          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
-
-        const themeValue = getPreferTheme();
-
-        // Set theme immediately to prevent flash
-        document.firstElementChild?.setAttribute('data-theme', themeValue);
-
-        // Export minimal API for external script
-        window.theme = {
-          themeValue: themeValue,
-          getTheme: () => window.theme.themeValue,
-          setTheme: val => {
-            window.theme.themeValue = val;
-          },
-        };
+        const stored = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = stored ?? (prefersDark ? 'dark' : 'light');
+        const root = document.firstElementChild;
+        root?.setAttribute('data-theme', theme);
+        root?.classList.toggle('dark', theme === 'dark');
+        // Expose value so theme.ts can skip re-detection.
+        window.__theme = { value: theme };
       })();
-    </script><link rel="stylesheet" href="/gdb/assets/about.CC6UjPCy.css">
-<style>:where([data-astro-image]){object-fit:var(--fit);object-position:var(--pos);height:auto}:where([data-astro-image=full-width]){width:100%}:where([data-astro-image=constrained]){max-width:100%}
-@keyframes astroFadeInOut{0%{opacity:1}to{opacity:0}}@keyframes astroFadeIn{0%{opacity:0;mix-blend-mode:plus-lighter}to{opacity:1;mix-blend-mode:plus-lighter}}@keyframes astroFadeOut{0%{opacity:1;mix-blend-mode:plus-lighter}to{opacity:0;mix-blend-mode:plus-lighter}}@keyframes astroSlideFromRight{0%{transform:translate(100%)}}@keyframes astroSlideFromLeft{0%{transform:translate(-100%)}}@keyframes astroSlideToRight{to{transform:translate(100%)}}@keyframes astroSlideToLeft{to{transform:translate(-100%)}}@media(prefers-reduced-motion){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}[data-astro-transition-scope]{animation:none!important}}
-#back-to-top[data-astro-cid-wlspcwf4]{background-color:var(--background)}
-</style><style>[data-astro-transition-scope="astro-toqxwfvt-1"] { view-transition-name: building-carla-in-windows-with-ue4; }@layer astro { ::view-transition-old(building-carla-in-windows-with-ue4) { 
+    </script><!-- Enable Astro View Transitions for all browsers --><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/gdb/assets/ClientRouter.astro_astro_type_script_index_0_lang.BDCjmQ8c.js"></script><style>@keyframes astroFadeInOut{0%{opacity:1}to{opacity:0}}@keyframes astroFadeIn{0%{opacity:0;mix-blend-mode:plus-lighter}to{opacity:1;mix-blend-mode:plus-lighter}}@keyframes astroFadeOut{0%{opacity:1;mix-blend-mode:plus-lighter}to{opacity:0;mix-blend-mode:plus-lighter}}@keyframes astroSlideFromRight{0%{transform:translate(100%)}}@keyframes astroSlideFromLeft{0%{transform:translate(-100%)}}@keyframes astroSlideToRight{to{transform:translate(100%)}}@keyframes astroSlideToLeft{to{transform:translate(-100%)}}@media (prefers-reduced-motion){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*),[data-astro-transition-scope]{animation:none!important}}
+</style><link rel="stylesheet" href="/gdb/assets/DefaultLayout.BJGJea9h.css"><style>#back-to-top[data-astro-cid-vy5be4ad]{background-color:var(--background)}
+</style><style>[data-astro-transition-scope="astro-y5rtt7sr-1"] { view-transition-name: building-carla-in-windows-with-ue4; }@layer astro { ::view-transition-old(building-carla-in-windows-with-ue4) { 
 	animation-duration: 180ms;
 	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
 	animation-fill-mode: both;
@@ -43,65 +27,67 @@
 	animation-duration: 180ms;
 	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
 	animation-fill-mode: both;
-	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-toqxwfvt-1"],
-			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-toqxwfvt-1"] { 
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-y5rtt7sr-1"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-y5rtt7sr-1"] { 
 	animation-duration: 180ms;
 	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
 	animation-fill-mode: both;
-	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-toqxwfvt-1"],
-			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-toqxwfvt-1"] { 
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-y5rtt7sr-1"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-y5rtt7sr-1"] { 
 	animation-duration: 180ms;
 	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
 	animation-fill-mode: both;
-	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-toqxwfvt-1"],
-			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-toqxwfvt-1"] { 
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-y5rtt7sr-1"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-y5rtt7sr-1"] { 
 	animation-duration: 180ms;
 	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
 	animation-fill-mode: both;
-	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-toqxwfvt-1"],
-			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-toqxwfvt-1"] { 
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-y5rtt7sr-1"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-y5rtt7sr-1"] { 
 	animation-duration: 180ms;
 	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
 	animation-fill-mode: both;
-	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-2"] { view-transition-name: carla; }@layer astro { ::view-transition-old(carla) { 
-	animation-duration: 180ms;
-	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
-	animation-fill-mode: both;
-	animation-name: astroFadeOut; }::view-transition-new(carla) { 
-	animation-duration: 180ms;
-	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
-	animation-fill-mode: both;
-	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(carla) { 
-	animation-duration: 180ms;
-	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
-	animation-fill-mode: both;
-	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(carla) { 
-	animation-duration: 180ms;
-	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
-	animation-fill-mode: both;
-	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-2"],
-			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-2"] { 
-	animation-duration: 180ms;
-	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
-	animation-fill-mode: both;
-	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-2"],
-			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-2"] { 
-	animation-duration: 180ms;
-	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
-	animation-fill-mode: both;
-	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-2"],
-			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-2"] { 
-	animation-duration: 180ms;
-	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
-	animation-fill-mode: both;
-	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-2"],
-			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-2"] { 
-	animation-duration: 180ms;
-	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
-	animation-fill-mode: both;
-	animation-name: astroFadeIn; }</style></head> <body>  <header class="app-layout flex flex-col items-center justify-between sm:flex-row"> <div id="top-nav-wrap" class="py-4 sm:py-6 border-border border-b bg-background relative w-full flex items-baseline justify-between sm:items-center"> <a href="/gdb/" class="absolute py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:static sm:my-auto sm:text-2xl sm:leading-none"> GDB </a> <nav id="nav-menu" class="flex w-full flex-col items-center sm:ms-2 sm:flex-row sm:justify-end sm:space-x-4 sm:py-0"> <button id="menu-btn" class="focus-outline self-end p-2 sm:hidden" aria-label="Open Menu" aria-expanded="false" aria-controls="menu-items"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden" id="close-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-menu-deep" id="menu-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 6h16" /><path d="M7 12h13" /><path d="M10 18h10" /></svg> </button> <ul id="menu-items" class="mt-4 grid w-44 grid-cols-2 place-content-center gap-2 [&#38;>li>a]:hover:text-accent [&#38;>li>a]:block [&#38;>li>a]:px-4 [&#38;>li>a]:py-3 [&#38;>li>a]:text-center [&#38;>li>a]:font-medium sm:[&#38;>li>a]:px-2 sm:[&#38;>li>a]:py-1 hidden sm:mt-0 sm:flex sm:w-auto sm:gap-x-5 sm:gap-y-0"> <li class="col-span-2"> <a href="/gdb/posts" class="active-nav">Posts</a> </li> <li class="col-span-2"> <a href="/gdb/tags">Tags</a> </li> <li class="col-span-2"> <a href="/gdb/archives">
-Archives
-</a> </li> <li class="col-span-2"> <a href="/gdb/about"> About </a> </li> <li class="col-span-1 flex items-center justify-center"> <a href="/gdb/search" aria-label="search" title="Search" class="group inline-flex items-center gap-1 hover:text-accent focus-outline flex p-3 sm:p-1">  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-search"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg> <span class="sr-only">Search</span>  </a> </li> <li class="col-span-1 flex items-center justify-center"> <button id="theme-btn" class="focus-outline hover:[&>svg]:stroke-accent relative size-12 p-4 sm:size-8" title="Toggles light & dark" aria-label="auto" aria-live="polite"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute top-[50%] left-[50%] -translate-[50%] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" /></svg> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute top-[50%] left-[50%] -translate-[50%] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M14.828 14.828a4 4 0 1 0 -5.656 -5.656a4 4 0 0 0 5.656 5.656z" /><path d="M6.343 17.657l-1.414 1.414" /><path d="M6.343 6.343l-1.414 -1.414" /><path d="M17.657 6.343l1.414 -1.414" /><path d="M17.657 17.657l1.414 1.414" /><path d="M4 12h-2" /><path d="M12 4v-2" /><path d="M20 12h2" /><path d="M12 20v2" /></svg> </button> </li> </ul> </nav> </div> </header> <script type="module">function s(){const e=document.querySelector("#menu-btn"),t=document.querySelector("#menu-items"),n=document.querySelector("#menu-icon"),o=document.querySelector("#close-icon");!e||!t||!n||!o||e.addEventListener("click",()=>{const c=e.getAttribute("aria-expanded")==="true";e.setAttribute("aria-expanded",c?"false":"true"),e.setAttribute("aria-label",c?"Open Menu":"Close Menu"),t.classList.toggle("hidden"),n.classList.toggle("hidden"),o.classList.toggle("hidden")})}s();document.addEventListener("astro:after-swap",s);</script> <section id="back-to-top" class="invisible fixed top-0 right-0 left-0 z-9 max-w-none border-b px-0 shadow-xs" data-astro-cid-wlspcwf4> <div class="max-w-app mx-auto flex w-full items-center justify-between px-4" data-astro-cid-wlspcwf4> <div class="min-width-0 my-2 flex flex-col" data-astro-cid-wlspcwf4> <a class="text-sm font-bold hover:underline" href="#top" data-astro-cid-wlspcwf4> Building CARLA in Windows with UE4 </a> <div class="flex items-center opacity-80 gap-x-1 flex-wrap" title="2026-04-28 17:02:53"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-5 min-w-[.25rem] scale-70"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M7 14h.013" /><path d="M10.01 14h.005" /><path d="M13.01 14h.005" /><path d="M16.015 14h.005" /><path d="M13.015 17h.005" /><path d="M7.01 17h.005" /><path d="M10.01 17h.005" /></svg> <span class="text-xs">Updated:</span> <time class="text-xs" datetime="2026-04-28 17:02:53">Apr 28, 2026</time> </div> </div> <a href="#top" class="hidden sm:block" data-astro-cid-wlspcwf4> <span class="cursor text-xs hover:underline" data-astro-cid-wlspcwf4>Back to top</span> </a> </div> </section> <script>
+	animation-name: astroFadeIn; }</style></head><body><header class="app-layout"><div id="top-nav-wrap" class="border-border bg-background relative flex w-full flex-wrap items-center justify-between border-b py-4 sm:py-6"><a href="/gdb/" class="py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:my-auto sm:text-2xl sm:leading-none">GDB</a><div class="flex items-center gap-1 sm:order-3 sm:gap-5"><pagefind-config base-url="/gdb/" bundle-path="/gdb/pagefind/"></pagefind-config><script type="module" src="/gdb/assets/PagefindConfig.astro_astro_type_script_index_0_lang.DqhBB4dD.js"></script><pagefind-modal class="pagefind-modal"></pagefind-modal><button id="search-btn" class="focus-outline hover:[&amp;&gt;svg]:stroke-accent relative size-12 p-4 sm:size-8" title="Search" aria-label="Search"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute top-[50%] left-[50%] -translate-[50%]">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+  <path d="M21 21l-6 -6" />
+</svg></button><script type="module">function e(){let e=document.querySelector(`pagefind-modal`);e&&typeof e.open==`function`&&e.open()}document.addEventListener(`click`,t=>{t.target?.closest(`#search-btn`)&&e()});</script><button id="theme-btn" class="focus-outline hover:[&amp;&gt;svg]:stroke-accent relative size-12 p-4 sm:size-8" title="Toggles light &amp; dark" aria-label="auto" aria-live="polite"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute top-[50%] left-[50%] -translate-[50%] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+</svg><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute top-[50%] left-[50%] -translate-[50%] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M14.828 14.828a4 4 0 1 0 -5.656 -5.656a4 4 0 0 0 5.656 5.656z" />
+  <path d="M6.343 17.657l-1.414 1.414" />
+  <path d="M6.343 6.343l-1.414 -1.414" />
+  <path d="M17.657 6.343l1.414 -1.414" />
+  <path d="M17.657 17.657l1.414 1.414" />
+  <path d="M4 12h-2" />
+  <path d="M12 4v-2" />
+  <path d="M20 12h2" />
+  <path d="M12 20v2" />
+</svg></button><button id="menu-btn" class="focus-outline hover:[&amp;&gt;svg]:stroke-accent flex size-12 items-center justify-center p-3 sm:hidden" aria-label="Open Menu" aria-expanded="false" aria-controls="menu-items"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="close-icon" class="hidden">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M18 6l-12 12" />
+  <path d="M6 6l12 12" />
+</svg><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="menu-icon">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M4 6h16" />
+  <path d="M7 12h13" />
+  <path d="M10 18h10" />
+</svg></button></div><nav id="nav-menu" class="order-3 w-full sm:order-2 sm:flex sm:w-auto sm:ms-auto"><ul id="menu-items" class="[&amp;&gt;li&gt;a]:hover:text-accent mt-4 hidden w-44 mx-auto grid-cols-2 place-content-center gap-2 sm:mt-0 sm:flex sm:w-auto sm:gap-x-5 sm:gap-y-0 sm:[&amp;&gt;li]:h-8 [&amp;&gt;li&gt;a]:block [&amp;&gt;li&gt;a]:px-4 [&amp;&gt;li&gt;a]:py-3 [&amp;&gt;li&gt;a]:text-center [&amp;&gt;li&gt;a]:font-medium sm:[&amp;&gt;li&gt;a]:px-2 sm:[&amp;&gt;li&gt;a]:py-1"><li class="col-span-2"><a href="/gdb/posts" class="active-nav">Posts</a></li><li class="col-span-2"><a href="/gdb/tags">Tags</a></li><li class="col-span-2"><a href="/gdb/archives">Archives</a></li><li class="col-span-2"><a href="/gdb/about">About</a></li></ul></nav></div></header><script type="module">function e(){let e=document.querySelector(`#menu-btn`),t=document.querySelector(`#menu-items`),n=document.querySelector(`#menu-icon`),r=document.querySelector(`#close-icon`);if(!e||!t||!n||!r)return;let i=e.dataset.labelOpen??`Open menu`,a=e.dataset.labelClose??`Close menu`;e.addEventListener(`click`,()=>{let o=e.getAttribute(`aria-expanded`)===`true`;e.setAttribute(`aria-expanded`,o?`false`:`true`),e.setAttribute(`aria-label`,o?i:a),t.classList.toggle(`hidden`),t.classList.toggle(`grid`),n.classList.toggle(`hidden`),r.classList.toggle(`hidden`)})}e(),document.addEventListener(`astro:after-swap`,e);</script><main id="main-content" class="app-layout pt-8 pb-4"><section id="back-to-top" class="invisible fixed top-0 right-0 left-0 z-9 max-w-none border-b px-0 shadow-xs" data-astro-cid-vy5be4ad><div class="max-w-app mx-auto flex w-full items-center justify-between px-4" data-astro-cid-vy5be4ad><div class="min-width-0 my-2 flex flex-col" data-astro-cid-vy5be4ad><a class="text-sm font-bold hover:underline" href="#top" data-astro-cid-vy5be4ad>Building CARLA in Windows with UE4</a><div class="text-muted-foreground flex items-center gap-x-2 flex-wrap" title="2026-04-28 17:02:53"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-5">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
+  <path d="M16 3v4" />
+  <path d="M8 3v4" />
+  <path d="M4 11h16" />
+  <path d="M7 14h.013" />
+  <path d="M10.01 14h.005" />
+  <path d="M13.01 14h.005" />
+  <path d="M16.015 14h.005" />
+  <path d="M13.015 17h.005" />
+  <path d="M7.01 17h.005" />
+  <path d="M10.01 17h.005" />
+</svg><span class="text-sm">Updated:</span><time class="text-sm">Apr 28, 2026</time></div></div><a href="#top" class="hidden sm:block text-xs hover:underline text-nowrap" data-astro-cid-vy5be4ad>Back to top</a></div></section><script>
   function detectedBackToTopVisible() {
     document.addEventListener('scroll', () => {
       if (!document) return;
@@ -119,11 +105,24 @@ Archives
     });
   }
   detectedBackToTopVisible();
-</script>  <main id="main-content" class="app-layout mt-8 pb-12" data-pagefind-body> <h1 class="text-accent inline-block text-2xl font-bold sm:text-3xl" data-astro-transition-scope="astro-toqxwfvt-1"> Building CARLA in Windows with UE4 </h1> <div class="my-2 flex items-center gap-2"> <div class="flex items-center opacity-80 gap-x-2" title="2026-04-28 17:02:53"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-5 min-w-[.25rem]"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M7 14h.013" /><path d="M10.01 14h.005" /><path d="M13.01 14h.005" /><path d="M16.015 14h.005" /><path d="M13.015 17h.005" /><path d="M7.01 17h.005" /><path d="M10.01 17h.005" /></svg> <span class="text-sm sm:text-base">Updated:</span> <time class="text-sm sm:text-base" datetime="2026-04-28 17:02:53">Apr 28, 2026</time> </div> </div> <article id="article" class="app-prose max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg) mt-8 w-full"> <h3 id="构建流程">构建流程</h3>
+</script><div data-pagefind-body><h1 data-astro-transition-scope="astro-y5rtt7sr-1" class="text-accent inline-block text-2xl font-bold sm:text-3xl">Building CARLA in Windows with UE4</h1><div class="my-2 flex items-center gap-2"><div class="text-muted-foreground flex items-center gap-x-2" title="2026-04-28 17:02:53"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-5">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
+  <path d="M16 3v4" />
+  <path d="M8 3v4" />
+  <path d="M4 11h16" />
+  <path d="M7 14h.013" />
+  <path d="M10.01 14h.005" />
+  <path d="M13.01 14h.005" />
+  <path d="M16.015 14h.005" />
+  <path d="M13.015 17h.005" />
+  <path d="M7.01 17h.005" />
+  <path d="M10.01 17h.005" />
+</svg><span class="text-sm sm:text-base">Updated:</span><time class="text-sm sm:text-base">Apr 28, 2026</time></div></div><article id="article" class="app-prose max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg) mt-8 w-full"><h3 id="构建流程">构建流程</h3>
 <h4 id="1-获取访问权限">1. 获取访问权限</h4>
 <p>将 GitHub 账号<a href="https://www.unrealengine.com/en-US/ue-on-github">关联到Epic Games</a>，并接受来自Epic组织的邀请。</p>
 <h4 id="2-下载-carla-专用-ue4-引擎">2. 下载 Carla 专用 UE4 引擎</h4>
-<pre class="astro-code astro-code-themes github-light-default one-dark-pro" style="--shiki-light:#1f2328;--shiki-dark:#abb2bf;--shiki-light-bg:#ffffff;--shiki-dark-bg:#282c34; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="--shiki-light:#953800;--shiki-dark:#61AFEF">git</span><span style="--shiki-light:#0A3069;--shiki-dark:#98C379"> clone</span><span style="--shiki-light:#0550AE;--shiki-dark:#D19A66"> --depth</span><span style="--shiki-light:#0550AE;--shiki-dark:#D19A66"> 1</span><span style="--shiki-light:#0550AE;--shiki-dark:#D19A66"> -b</span><span style="--shiki-light:#0A3069;--shiki-dark:#98C379"> carla</span><span style="--shiki-light:#0A3069;--shiki-dark:#98C379"> https://github.com/CarlaUnreal/UnrealEngine.git</span><span style="--shiki-light:#0A3069;--shiki-dark:#98C379"> CarlaUE4_Engine</span></span></code></pre>
+<pre class="astro-code astro-code-themes min-light one-dark-pro" style="--shiki-light:#24292eff;--shiki-dark:#abb2bf;--shiki-light-bg:#ffffff;--shiki-dark-bg:#282c34; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="--shiki-light:#6F42C1;--shiki-dark:#61AFEF">git</span><span style="--shiki-light:#2B5581;--shiki-dark:#98C379"> clone</span><span style="--shiki-light:#2B5581;--shiki-dark:#D19A66"> --depth</span><span style="--shiki-light:#1976D2;--shiki-dark:#D19A66"> 1</span><span style="--shiki-light:#2B5581;--shiki-dark:#D19A66"> -b</span><span style="--shiki-light:#2B5581;--shiki-dark:#98C379"> carla</span><span style="--shiki-light:#2B5581;--shiki-dark:#98C379"> https://github.com/CarlaUnreal/UnrealEngine.git</span><span style="--shiki-light:#2B5581;--shiki-dark:#98C379"> CarlaUE4_Engine</span></span></code></pre>
 <ol>
 <li>执行 <code>Setup.bat</code></li>
 <li>执行 <code>GenerateProjectFiles.bat</code></li>
@@ -139,21 +138,21 @@ Archives
 <ol>
 <li>在 CarlaUE4_Engine 目录下找到 <code>UE4.sln</code>，双击选择 Visual Studio 打开</li>
 <li>设置编译模式 <code>Development Editor</code> + <code>Win64</code> + <code>UnrealBuildTool</code></li>
-<li>在右侧文件目录中找到 UE4 项目，右键 -> Build</li>
+<li>在右侧文件目录中找到 UE4 项目，右键 -&gt; Build</li>
 </ol>
 <h4 id="4-配置环境变量">4. 配置环境变量</h4>
 <p><code>UE4_ROOT</code> 指向 CarlaUE4_Engine 目录，例如 <code>D:\CarlaUE4_Engine</code></p>
 <h4 id="5-克隆-carla-ue4-dev-分支代码到本地">5. 克隆 CARLA <code>ue4-dev</code> 分支代码到本地</h4>
-<pre class="astro-code astro-code-themes github-light-default one-dark-pro" style="--shiki-light:#1f2328;--shiki-dark:#abb2bf;--shiki-light-bg:#ffffff;--shiki-dark-bg:#282c34; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="--shiki-light:#953800;--shiki-dark:#61AFEF">git</span><span style="--shiki-light:#0A3069;--shiki-dark:#98C379"> clone</span><span style="--shiki-light:#0550AE;--shiki-dark:#D19A66"> -b</span><span style="--shiki-light:#0A3069;--shiki-dark:#98C379"> ue4-dev</span><span style="--shiki-light:#0A3069;--shiki-dark:#98C379"> https://github.com/carla-simulator/carla</span><span style="--shiki-light:#0A3069;--shiki-dark:#98C379"> CarlaUE4</span></span></code></pre>
+<pre class="astro-code astro-code-themes min-light one-dark-pro" style="--shiki-light:#24292eff;--shiki-dark:#abb2bf;--shiki-light-bg:#ffffff;--shiki-dark-bg:#282c34; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="--shiki-light:#6F42C1;--shiki-dark:#61AFEF">git</span><span style="--shiki-light:#2B5581;--shiki-dark:#98C379"> clone</span><span style="--shiki-light:#2B5581;--shiki-dark:#D19A66"> -b</span><span style="--shiki-light:#2B5581;--shiki-dark:#98C379"> ue4-dev</span><span style="--shiki-light:#2B5581;--shiki-dark:#98C379"> https://github.com/carla-simulator/carla</span><span style="--shiki-light:#2B5581;--shiki-dark:#98C379"> CarlaUE4</span></span></code></pre>
 <h4 id="6-下载静态资源">6. 下载静态资源</h4>
 <p>执行脚本</p>
-<pre class="astro-code astro-code-themes github-light-default one-dark-pro" style="--shiki-light:#1f2328;--shiki-dark:#abb2bf;--shiki-light-bg:#ffffff;--shiki-dark-bg:#282c34; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="--shiki-light:#0550AE;--shiki-dark:#56B6C2">cd</span><span style="--shiki-light:#0A3069;--shiki-dark:#98C379"> CarlaUE4</span></span>
-<span class="line"><span style="--shiki-light:#953800;--shiki-dark:#61AFEF">Update.bat</span></span></code></pre>
+<pre class="astro-code astro-code-themes min-light one-dark-pro" style="--shiki-light:#24292eff;--shiki-dark:#abb2bf;--shiki-light-bg:#ffffff;--shiki-dark-bg:#282c34; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="--shiki-light:#6F42C1;--shiki-dark:#56B6C2">cd</span><span style="--shiki-light:#2B5581;--shiki-dark:#98C379"> CarlaUE4</span></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-dark:#61AFEF">Update.bat</span></span></code></pre>
 <blockquote>
 <p>或者手动下载静态资源</p>
 </blockquote>
 <p>进入 <code>D:\CarlaUE4\Unreal\CarlaUnreal\Content</code> 文件夹，手动下载 Content 内容（以0.9.16版本为例）：</p>
-<pre class="astro-code astro-code-themes github-light-default one-dark-pro" style="--shiki-light:#1f2328;--shiki-dark:#abb2bf;--shiki-light-bg:#ffffff;--shiki-dark-bg:#282c34; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="--shiki-light:#953800;--shiki-dark:#61AFEF">git</span><span style="--shiki-light:#0A3069;--shiki-dark:#98C379"> clone</span><span style="--shiki-light:#0550AE;--shiki-dark:#D19A66"> --single-branch</span><span style="--shiki-light:#0550AE;--shiki-dark:#D19A66"> --depth</span><span style="--shiki-light:#0550AE;--shiki-dark:#D19A66"> 1</span><span style="--shiki-light:#0550AE;--shiki-dark:#D19A66"> -b</span><span style="--shiki-light:#0550AE;--shiki-dark:#D19A66"> 0.9.16</span><span style="--shiki-light:#0A3069;--shiki-dark:#98C379"> https://bitbucket.org/carla-simulator/carla-content.git</span><span style="--shiki-light:#0A3069;--shiki-dark:#98C379"> Carla</span></span></code></pre>
+<pre class="astro-code astro-code-themes min-light one-dark-pro" style="--shiki-light:#24292eff;--shiki-dark:#abb2bf;--shiki-light-bg:#ffffff;--shiki-dark-bg:#282c34; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="--shiki-light:#6F42C1;--shiki-dark:#61AFEF">git</span><span style="--shiki-light:#2B5581;--shiki-dark:#98C379"> clone</span><span style="--shiki-light:#2B5581;--shiki-dark:#D19A66"> --single-branch</span><span style="--shiki-light:#2B5581;--shiki-dark:#D19A66"> --depth</span><span style="--shiki-light:#1976D2;--shiki-dark:#D19A66"> 1</span><span style="--shiki-light:#2B5581;--shiki-dark:#D19A66"> -b</span><span style="--shiki-light:#1976D2;--shiki-dark:#D19A66"> 0.9.16</span><span style="--shiki-light:#2B5581;--shiki-dark:#98C379"> https://bitbucket.org/carla-simulator/carla-content.git</span><span style="--shiki-light:#2B5581;--shiki-dark:#98C379"> Carla</span></span></code></pre>
 <h4 id="7-编译">7. 编译</h4>
 <blockquote>
 <p>注意：以下命令全部在 x64 Native Tools Command Prompt for VS 2022 命令行中执行（执行目录：D:\CarlaUE4）</p>
@@ -161,16 +160,52 @@ Archives
 <ul>
 <li><strong>Python API</strong></li>
 </ul>
-<pre class="astro-code astro-code-themes github-light-default one-dark-pro" style="--shiki-light:#1f2328;--shiki-dark:#abb2bf;--shiki-light-bg:#ffffff;--shiki-dark-bg:#282c34; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="--shiki-light:#953800;--shiki-dark:#61AFEF">make</span><span style="--shiki-light:#0A3069;--shiki-dark:#98C379"> PythonAPI</span></span></code></pre>
+<pre class="astro-code astro-code-themes min-light one-dark-pro" style="--shiki-light:#24292eff;--shiki-dark:#abb2bf;--shiki-light-bg:#ffffff;--shiki-dark-bg:#282c34; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="--shiki-light:#6F42C1;--shiki-dark:#61AFEF">make</span><span style="--shiki-light:#2B5581;--shiki-dark:#98C379"> PythonAPI</span></span></code></pre>
 <ul>
 <li><strong>Server</strong></li>
 </ul>
-<pre class="astro-code astro-code-themes github-light-default one-dark-pro" style="--shiki-light:#1f2328;--shiki-dark:#abb2bf;--shiki-light-bg:#ffffff;--shiki-dark-bg:#282c34; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="--shiki-light:#953800;--shiki-dark:#61AFEF">make</span><span style="--shiki-light:#0A3069;--shiki-dark:#98C379"> launch</span><span style="--shiki-light:#0A3069;--shiki-dark:#98C379"> //</span><span style="--shiki-light:#0A3069;--shiki-dark:#98C379"> 跳过编译可使用</span><span style="--shiki-light:#0A3069;--shiki-dark:#98C379"> make</span><span style="--shiki-light:#0A3069;--shiki-dark:#98C379"> launch-only</span></span></code></pre>
+<pre class="astro-code astro-code-themes min-light one-dark-pro" style="--shiki-light:#24292eff;--shiki-dark:#abb2bf;--shiki-light-bg:#ffffff;--shiki-dark-bg:#282c34; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="--shiki-light:#6F42C1;--shiki-dark:#61AFEF">make</span><span style="--shiki-light:#2B5581;--shiki-dark:#98C379"> launch</span><span style="--shiki-light:#2B5581;--shiki-dark:#98C379"> //</span><span style="--shiki-light:#2B5581;--shiki-dark:#98C379"> 跳过编译可使用</span><span style="--shiki-light:#2B5581;--shiki-dark:#98C379"> make</span><span style="--shiki-light:#2B5581;--shiki-dark:#98C379"> launch-only</span></span></code></pre>
 <h3 id="补充文档">补充文档</h3>
 <ul>
 <li>官方文档 <a href="https://carla.readthedocs.io/en/0.9.16/build_windows/">Windows build</a></li>
-</ul> </article> <hr class="my-8 border-dashed"> <ul class="mt-4 mb-8 sm:my-8"> <li class="group inline-block group-hover:cursor-pointer my-1 underline-offset-4"> <a href="/gdb/tags/carla/" class="group-hover:text-accent relative pe-2 text-lg underline decoration-dashed group-hover:-top-0.5 focus-visible:p-1 focus-visible:no-underline text-sm" data-astro-transition-scope="astro-36ssibgs-2"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block opacity-80 -me-3.5 size-4"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 9l14 0" /><path d="M5 15l14 0" /><path d="M11 4l-4 16" /><path d="M17 4l-4 16" /></svg>
-&nbsp;<span>carla</span> </a> </li> </ul> <div class="flex flex-none flex-col items-center justify-center gap-1 md:items-start"><span class="italic">Share this post on:</span><div class="text-center"><a href="https://wa.me/?text=https://mfuu.github.io/gdb/posts/buildingcarlainwindowswithue4/" title="Share this post via WhatsApp" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" /><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" /></svg><span class="sr-only">Share this post via WhatsApp</span> </a><a href="https://www.facebook.com/sharer.php?u=https://mfuu.github.io/gdb/posts/buildingcarlainwindowswithue4/" title="Share this post on Facebook" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" /></svg><span class="sr-only">Share this post on Facebook</span> </a><a href="https://x.com/intent/post?url=https://mfuu.github.io/gdb/posts/buildingcarlainwindowswithue4/" title="Share this post on X" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 4l11.733 16h4.267l-11.733 -16z" /><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" /></svg><span class="sr-only">Share this post on X</span> </a><a href="https://t.me/share/url?url=https://mfuu.github.io/gdb/posts/buildingcarlainwindowswithue4/" title="Share this post via Telegram" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4" /></svg><span class="sr-only">Share this post via Telegram</span> </a><a href="https://pinterest.com/pin/create/button/?url=https://mfuu.github.io/gdb/posts/buildingcarlainwindowswithue4/" title="Share this post on Pinterest" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 20l4 -9" /><path d="M10.7 14c.437 1.263 1.43 2 2.55 2c2.071 0 3.75 -1.554 3.75 -4a5 5 0 1 0 -9.7 1.7" /><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /></svg><span class="sr-only">Share this post on Pinterest</span> </a><a href="mailto:?subject=See%20this%20post&#38;body=https://mfuu.github.io/gdb/posts/buildingcarlainwindowswithue4/" title="Share this post via email" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" /><path d="M3 7l9 6l9 -6" /></svg><span class="sr-only">Share this post via email</span> </a></div></div> <hr class="my-6 border-dashed"> <!-- Previous/Next Post Buttons --> <div data-pagefind-ignore class="grid grid-cols-1 gap-6 sm:grid-cols-2"> <a href="/gdb/posts/installros2anddepthai_ros_driver_v3onubuntu24" class="flex w-full gap-1 hover:opacity-75"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block flex-none rtl:rotate-180"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 6l-6 6l6 6" /></svg> <div> <span>Previous Post</span> <div class="text-accent/85 text-sm">Install ROS2 and depthai_ros_driver_v3 on Ubuntu24</div> </div> </a> <a href="/gdb/posts/buildingcarlainwindowswithunrealengine55" class="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"> <div> <span>Next Post</span> <div class="text-accent/85 text-sm">Building CARLA in Windows with Unreal Engine 5.5</div> </div> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block flex-none rtl:rotate-180"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 6l6 6l-6 6" /></svg> </a> </div> <div id="giscus-container"></div><script data-astro-rerun>(function(){const enable = true;
+</ul>
+</article><hr class="my-8 border-dashed"><ul class="flex items-center flex-wrap gap-3 mt-4 mb-8"><li class="group inline-block group-hover:cursor-pointer underline-offset-4"><a href="/gdb/tags/carla/" class="flex items-center gap-0.5 group-hover:text-accent relative underline decoration-dashed group-hover:-top-0.5 focus-visible:p-1 focus-visible:no-underline text-sm"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 size-4">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M5 9l14 0" />
+  <path d="M5 15l14 0" />
+  <path d="M11 4l-4 16" />
+  <path d="M17 4l-4 16" />
+</svg>carla</a></li></ul><div class="flex flex-none flex-col items-center justify-center gap-1 md:items-start"><span class="italic">Share this post on:</span><div class="text-center"><a href="https://wa.me/?text=https://mfuu.github.io/gdb/posts/buildingcarlainwindowswithue4/" title="Share this post via WhatsApp" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" />
+  <path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" />
+</svg><span class="sr-only">Share this post via WhatsApp</span></a><a href="https://www.facebook.com/sharer.php?u=https://mfuu.github.io/gdb/posts/buildingcarlainwindowswithue4/" title="Share this post on Facebook" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" />
+</svg><span class="sr-only">Share this post on Facebook</span></a><a href="https://x.com/intent/post?url=https://mfuu.github.io/gdb/posts/buildingcarlainwindowswithue4/" title="Share this post on X" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
+  <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
+</svg><span class="sr-only">Share this post on X</span></a><a href="https://t.me/share/url?url=https://mfuu.github.io/gdb/posts/buildingcarlainwindowswithue4/" title="Share this post via Telegram" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4" />
+</svg><span class="sr-only">Share this post via Telegram</span></a><a href="https://pinterest.com/pin/create/button/?url=https://mfuu.github.io/gdb/posts/buildingcarlainwindowswithue4/" title="Share this post on Pinterest" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M8 20l4 -9" />
+  <path d="M10.7 14c.437 1.263 1.43 2 2.55 2c2.071 0 3.75 -1.554 3.75 -4a5 5 0 1 0 -9.7 1.7" />
+  <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+</svg><span class="sr-only">Share this post on Pinterest</span></a><a href="mailto:?subject=See%20this%20post&amp;body=https://mfuu.github.io/gdb/posts/buildingcarlainwindowswithue4/" title="Share this post via email" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
+  <path d="M3 7l9 6l9 -6" />
+</svg><span class="sr-only">Share this post via email</span></a></div></div><hr class="my-6 border-dashed"><!-- Previous/Next Post Buttons --><div data-pagefind-ignore class="grid grid-cols-1 gap-6 sm:grid-cols-2"><a href="/gdb/posts/installros2anddepthai_ros_driver_v3onubuntu24" class="flex w-full gap-1 hover:opacity-75"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block flex-none rtl:rotate-180">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M15 6l-6 6l6 6" />
+</svg><div><span>Previous Post</span><div class="text-accent/85 text-sm">Install ROS2 and depthai_ros_driver_v3 on Ubuntu24</div></div></a><a href="/gdb/posts/buildingcarlainwindowswithunrealengine55" class="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"><div><span>Next Post</span><div class="text-accent/85 text-sm">Building CARLA in Windows with Unreal Engine 5.5</div></div><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block flex-none rtl:rotate-180">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M9 6l6 6l-6 6" />
+</svg></a></div><div id="giscusContainer"></div><script data-astro-rerun>(function(){const src = "https://giscus.app/client.js";
+const enable = true;
 const repo = "mfuu/gdb";
 const mapping = "number";
 const emitMetadata = 0;
@@ -182,8 +217,8 @@ const lightTheme = "light";
 const darkTheme = "dark_dimmed";
 const term = 16;
 
-  function installGiscus() {
-    const container = document.getElementById('giscus-container');
+  (function () {
+    const container = document.getElementById('giscusContainer');
     if (!container) return;
 
     container.innerHTML = '';
@@ -195,7 +230,7 @@ const term = 16;
     const theme = currentTheme || browserTheme;
 
     const script = document.createElement('script');
-    script.src = 'https://giscus.app/client.js';
+    script.src = src;
     script.async = true;
     script.setAttribute('data-repo', repo);
     script.setAttribute('data-mapping', mapping);
@@ -209,32 +244,29 @@ const term = 16;
     script.setAttribute('crossorigin', 'anonymous');
 
     container.appendChild(script);
-  }
-
-  installGiscus();
-})();</script> </main> <footer class="app-layout mt-auto"> <div class="py-6 sm:py-4 border-border border-t flex flex-col items-center justify-between sm:flex-row-reverse"> <div class="flex-wrap justify-center gap-1"> <a href="https://github.com/mfuu/gdb" title="GDB on Github" class="group inline-flex items-center gap-1 hover:text-accent p-2 hover:rotate-6 sm:p-1">  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" /></svg> <span class="sr-only">GDB on Github</span>  </a> </div> <div class="my-2 flex flex-col items-center whitespace-nowrap sm:flex-row"> <span>Copyright &#169; 2026</span> <span class="hidden sm:inline">&nbsp;|&nbsp;</span> <span>All rights reserved.</span> </div> </div> </footer>  <script src="/gdb/toggle-theme.js"></script> </body> </html> <script data-astro-rerun>
-  // /** Create a progress indicator
-  //  *  at the top */
+  })();
+})();</script></div></main><footer class="app-layout mt-auto"><div class="border-border flex flex-col items-center justify-between border-t py-6 sm:flex-row-reverse sm:py-4"><div class="flex items-center gap-2"><div class="flex-wrap justify-center gap-1"><a href="https://github.com/mfuu/gdb" title="GDB on Github" class="group inline-flex items-center gap-1 hover:text-accent p-2 hover:rotate-6 sm:p-1"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg><span class="sr-only">GDB on Github</span></a></div><a href="/gdb/rss.xml" aria-label="RSS Feed" title="RSS Feed" class="group inline-flex items-center gap-1 hover:text-accent focus-outline hover:text-accent p-1 transition-colors"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5 stroke-current">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M5 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  <path d="M4 4a16 16 0 0 1 16 16" />
+  <path d="M4 11a9 9 0 0 1 9 9" />
+</svg></a></div><div class="my-2 flex flex-col items-center whitespace-nowrap sm:flex-row"><span>Copyright &#169; 2026</span><span class="hidden sm:inline">&nbsp;|&nbsp;</span><span>All rights reserved.</span></div></div></footer><script src="/gdb/toggle-theme.js"></script></body></html><script data-astro-rerun>
   function createProgressBar() {
-    // Create the main container div
     const progressContainer = document.createElement('div');
     progressContainer.className = 'progress-container fixed top-0 z-10 h-1 w-full bg-background';
 
-    // Create the progress bar div
     const progressBar = document.createElement('div');
     progressBar.className = 'progress-bar h-1 w-0 bg-accent';
     progressBar.id = 'myBar';
 
-    // Append the progress bar to the progress container
     progressContainer.appendChild(progressBar);
-
-    // Append the progress container to the document body or any other desired parent element
     document.body.appendChild(progressContainer);
   }
   createProgressBar();
 
-  /** Update the progress bar
-   *  when user scrolls */
   function updateScrollProgress() {
     document.addEventListener('scroll', () => {
       const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
@@ -250,8 +282,6 @@ const term = 16;
   }
   updateScrollProgress();
 
-  /** Attaches links to headings in the document,
-   *  allowing sharing of sections easily */
   function addHeadingLinks() {
     const headings = Array.from(document.querySelectorAll('h2, h3, h4, h5, h6'));
     for (const heading of headings) {
@@ -270,8 +300,6 @@ const term = 16;
   }
   addHeadingLinks();
 
-  /** Attaches copy buttons to code blocks in the document,
-   * allowing users to copy code easily. */
   function attachCopyButtons() {
     const copyButtonLabel = 'Copy';
     const codeBlocks = Array.from(document.querySelectorAll('pre'));
@@ -280,20 +308,17 @@ const term = 16;
       const wrapper = document.createElement('div');
       wrapper.style.position = 'relative';
 
-      // Check if --file-name-offset custom property exists
       const computedStyle = getComputedStyle(codeBlock);
       const hasFileNameOffset = computedStyle.getPropertyValue('--file-name-offset').trim() !== '';
 
-      // Determine the top positioning class
       const topClass = hasFileNameOffset ? 'top-(--file-name-offset)' : '-top-3';
 
       const copyButton = document.createElement('button');
-      copyButton.className = `copy-code absolute end-3 ${topClass} rounded bg-muted border border-border px-2 py-1 text-xs leading-4 text-foreground font-medium`;
+      copyButton.className = `copy-code absolute end-3 ${topClass} rounded bg-muted border border-muted px-2 py-1 text-xs leading-4 text-foreground font-medium`;
       copyButton.innerHTML = copyButtonLabel;
       codeBlock.setAttribute('tabindex', '0');
       codeBlock.appendChild(copyButton);
 
-      // wrap codebock with relative parent element
       codeBlock?.parentNode?.insertBefore(wrapper, codeBlock);
       wrapper.appendChild(codeBlock);
 
@@ -308,7 +333,6 @@ const term = 16;
 
       await navigator.clipboard.writeText(text ?? '');
 
-      // visual feedback that task is completed
       button.innerText = 'Copied';
 
       setTimeout(() => {
@@ -318,7 +342,6 @@ const term = 16;
   }
   attachCopyButtons();
 
-  /* Go to page start after page swap */
   document.addEventListener('astro:after-swap', () =>
     window.scrollTo({ left: 0, top: 0, behavior: 'instant' })
   );
